@@ -23,12 +23,12 @@ const createCustomerEmailTemplate = (bookingData: any) => {
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #f5a623, #d4841c); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .header { background: linear-gradient(135deg, #A88B35, #967a2e); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
         .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-        .booking-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f5a623; }
+        .booking-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #A88B35; }
         .footer { text-align: center; margin-top: 30px; color: #666; }
         .logo { font-size: 24px; font-weight: bold; }
-        .highlight { color: #f5a623; font-weight: bold; }
+        .highlight { color: #A88B35; font-weight: bold; }
       </style>
     </head>
     <body>
@@ -70,7 +70,7 @@ const createCustomerEmailTemplate = (bookingData: any) => {
           <div class="footer">
             <p><strong>CO Signature Homes</strong></p>
             <p>Phone: +234 913 559 1544</p>
-            <p>Email: admin@cosignaturehomes.com</p>
+            <p>Email: info@cosignaturehomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>
           </div>
         </div>
@@ -90,9 +90,9 @@ const createAdminEmailTemplate = (bookingData: any) => {
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: #1a1a1a; color: #f5a623; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .header { background: #1a1a1a; color: #A88B35; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
         .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-        .booking-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f5a623; }
+        .booking-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #A88B35; }
         .urgent { background: #fff3cd; border-left-color: #ffc107; }
         .logo { font-size: 24px; font-weight: bold; }
       </style>

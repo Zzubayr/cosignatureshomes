@@ -82,7 +82,7 @@ npm run dev
 ## 🎨 Design System
 
 ### Colors
-- **Primary**: Gold (#f5a623, #d4841c)
+- **Primary**: Gold (#A88B35, #967a2e)
 - **Background**: Black (#000000)
 - **Dark**: Various shades (#0a0a0a to #3d3d3d)
 - **Text**: White and gray variants

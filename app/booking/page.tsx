@@ -678,7 +678,7 @@ const BookingPage = () => {
                   </div>
                   <div>
                     <h3 className="text-white font-semibold">Email</h3>
-                    <p className="text-gray-300">admin@cosignaturehomes.com</p>
+                    <p className="text-gray-300">info@cosignaturehomes.com</p>
                   </div>
                 </div>
 

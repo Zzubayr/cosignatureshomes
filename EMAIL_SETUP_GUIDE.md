@@ -20,14 +20,14 @@
 # Copy from .env.example and fill in your details
 EMAIL_USER=your-gmail@gmail.com
 EMAIL_PASSWORD=your-16-character-app-password
-ADMIN_EMAIL=admin@cosignaturehomes.com
+ADMIN_EMAIL=info@cosignaturehomes.com
 ```
 2. **For Production** (Squarespace or custom domain):
 ```bash
 # When you get your custom domain email
-EMAIL_USER=admin@cosignaturehomes.com
+EMAIL_USER=info@cosignaturehomes.com
 EMAIL_PASSWORD=your-domain-email-password
-ADMIN_EMAIL=admin@cosignaturehomes.com
+ADMIN_EMAIL=info@cosignaturehomes.com
 ```
 
 ### Step 3: Test the System
@@ -143,7 +143,7 @@ npm run dev
 
 ### Contact Information
 - **Phone**: +234 913 559 1544
-- **Email**: admin@cosignaturehomes.com
+- **Email**: info@cosignaturehomes.com
 - **Website**: CO Signature Homes
 
 ---
