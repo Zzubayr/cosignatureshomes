@@ -132,6 +132,12 @@ const ContactPage = () => {
       description: 'Available 24/7 for bookings and inquiries'
     },
     {
+      icon: Phone,
+      title: 'WhatsApp',
+      details: '+234 902 842 5896',
+      description: 'Chat with us on WhatsApp'
+    },
+    {
       icon: Mail,
       title: 'Email',
       details: 'info@cosignaturehomes.com',
@@ -142,12 +148,6 @@ const ContactPage = () => {
       title: 'Location',
       details: 'Ilesha, Osun State',
       description: 'Nigeria'
-    },
-    {
-      icon: Clock,
-      title: 'Business Hours',
-      details: '24/7 Service',
-      description: 'Round-the-clock customer support'
     }
   ]
 

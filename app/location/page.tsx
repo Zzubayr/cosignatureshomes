@@ -85,7 +85,7 @@ const LocationPage = () => {
               Located in the Heart of <span className="text-gold-400">Ilesha</span>, Osun State
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Pa C.O Service Apartments sit in a secure, peaceful community with fast access to markets, 
+              Pa C.O Service Apartments at Alatishe, Phase 2, Ile Ayo sit in a secure, peaceful community with fast access to markets, 
               restaurants, major roads, and business districts. Experience the perfect blend of tranquility 
               and convenience in Nigeria's historic city.
             </p>
@@ -125,7 +125,7 @@ const LocationPage = () => {
                 Interactive Map
               </h3>
               <p className="text-gray-300 mb-2">Pa C.O Service Apartments</p>
-              <p className="text-gold-400 font-semibold">Ilesha, Osun State, Nigeria</p>
+              <p className="text-gold-400 font-semibold">Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State, Nigeria</p>
             </div>
           </motion.div>
         </div>

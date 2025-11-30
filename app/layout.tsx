@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/lib/auth-context'
+import PolicyBanner from '@/components/PolicyBanner'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -14,8 +16,8 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: 'CO Signature Homes - Premium Serviced Apartments in Nigeria',
-  description: 'Discover luxury serviced apartments across Nigeria with CO Signature Homes. Featuring Pa Cladius Apartments, Cladius Elite Lofts, and Omolaja Flats - premium accommodation with 24/7 power, security, and world-class amenities.',
-  keywords: 'serviced apartments, Nigeria, luxury accommodation, Pa Cladius, Cladius Elite, Omolaja Flats, Ilesha, Osun State, 24/7 power, security, premium amenities',
+  description: 'Discover luxury serviced apartments across Nigeria with CO Signature Homes. Featuring Pa Cladius Apartments at Alatishe, Phase 2, Ile Ayo, Ilesha, Cladius Elite Lofts, and Omolaja Flats - premium accommodation with 24/7 power, security, and world-class amenities.',
+  keywords: 'serviced apartments, Nigeria, luxury accommodation, Pa Cladius, Alatishe, Ile Ayo, Cladius Elite, Omolaja Flats, Ilesha, Osun State, 24/7 power, security, premium amenities',
   authors: [{ name: 'CO Signature Homes' }],
   openGraph: {
     title: 'CO Signature Homes - Premium Serviced Apartments in Nigeria',
@@ -38,7 +40,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className={`${inter.className} bg-black text-white antialiased`}>
-        {children}
+        <AuthProvider>
+          {children}
+          <PolicyBanner />
+        </AuthProvider>
+        
+        {/* Paystack Script */}
+        <script src="https://js.paystack.co/v1/inline.js"></script>
       </body>
     </html>
   )

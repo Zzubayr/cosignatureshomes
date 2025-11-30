@@ -42,8 +42,8 @@ const FeaturedAmenities = () => {
     },
     {
       icon: MapPin,
-      title: 'Prime Location – Ilesha, Osun State',
-      description: 'Strategically located in the heart of Ilesha with easy access to amenities'
+      title: 'Prime Location – Alatishe, Ile Ayo, Ilesha',
+      description: 'Strategically located at Alatishe, Phase 2, Ile Ayo with easy access to amenities'
     }
   ]
 

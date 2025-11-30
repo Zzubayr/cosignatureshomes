@@ -21,9 +21,9 @@ export default function Home() {
     {
       id: 'pa-cladius',
       name: 'Pa Cladius Apartments',
-      description: '3 fully serviced ensuite units in Ilesha, Osun State with 24/7 power, security, and premium amenities.',
+      description: '3 fully serviced ensuite units at Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State with 24/7 power, security, and premium amenities.',
       status: 'available',
-      location: 'Ilesha, Osun State',
+      location: 'Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State',
       units: '3 Units Available',
       href: '/pa-cladius',
       image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'

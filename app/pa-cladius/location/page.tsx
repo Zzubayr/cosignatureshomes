@@ -85,7 +85,7 @@ const PaCladiusLocationPage = () => {
               Located in the Heart of <span className="text-gold-400">Ilesha</span>, Osun State
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Pa Cladius Apartments sit in a secure, peaceful community with fast access to markets, 
+              Pa Cladius Apartments at Alatishe, Phase 2, Ile Ayo sit in a secure, peaceful community with fast access to markets, 
               restaurants, major roads, and business districts. Experience the perfect blend of tranquility 
               and convenience in Nigeria's historic city.
             </p>
@@ -111,21 +111,53 @@ const PaCladiusLocationPage = () => {
             </p>
           </motion.div>
 
-          {/* Interactive Map Placeholder */}
+          {/* Interactive Map */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-dark-900 rounded-3xl h-96 flex items-center justify-center border border-gray-800 mb-12"
+            className="bg-dark-900 rounded-3xl overflow-hidden border border-gray-800 mb-12"
           >
-            <div className="text-center">
-              <MapPin className="w-16 h-16 text-gold-400 mx-auto mb-6" />
-              <h3 className="text-2xl font-playfair font-semibold text-white mb-4">
-                Interactive Map
-              </h3>
-              <p className="text-gray-300 mb-2">Pa Cladius Apartments</p>
-              <p className="text-gold-400 font-semibold">Ilesha, Osun State, Nigeria</p>
+            <div className="p-6 border-b border-gray-800">
+              <div className="text-center">
+                <MapPin className="w-12 h-12 text-gold-400 mx-auto mb-4" />
+                <h3 className="text-2xl font-playfair font-semibold text-white mb-2">
+                  Interactive Map
+                </h3>
+                <p className="text-gray-300 mb-1">Pa Cladius Apartments</p>
+                <p className="text-gold-400 font-semibold">Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State, Nigeria</p>
+              </div>
+            </div>
+            
+            {/* Google Maps Embed */}
+            <div className="h-80 w-full">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.2!2d4.7419!3d7.6279!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMzcnNDAuNCJOIDTCsDQ0JzMwLjgiRQ!5e0!3m2!1sen!2sng!4v1635000000000!5m2!1sen!2sng&q=Alatishe+Phase+2+Ile+Ayo+Ilesha+Osun+State+Nigeria"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Pa Cladius Apartments Location - Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State, Nigeria"
+              ></iframe>
+            </div>
+            
+            {/* Address Details */}
+            <div className="p-6 bg-dark-800">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-gold-400 font-semibold mb-1">Full Address:</p>
+                  <p className="text-gray-300">Alatishe, Phase 2, Ile Ayo</p>
+                  <p className="text-gray-300">Ilesha, Osun State, Nigeria</p>
+                </div>
+                <div>
+                  <p className="text-gold-400 font-semibold mb-1">Contact:</p>
+                  <p className="text-gray-300">+2348110384179</p>
+                  <p className="text-gray-300">info@cosignaturehomes.com</p>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>

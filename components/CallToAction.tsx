@@ -19,7 +19,7 @@ const CallToAction = () => {
           </h2>
           <p className="text-lg md:text-xl text-black/80 mb-8 max-w-2xl mx-auto leading-relaxed">
             Contact us today to reserve your preferred apartment at Pa C.O Service Apartments.
-            📞 +234 913 559 1544 | 🌐 pacoserviceapartment.com
+            📞 +2348110384179 | 💬 +2349028425896 | 🌐 cosignaturehomes.com
           </p>
           <Link
             href="/booking"

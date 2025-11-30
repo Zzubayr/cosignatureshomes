@@ -1,11 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Head from 'next/head'
 import { Calendar, Users, Phone, Mail, MapPin, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import { useAuth } from '@/lib/auth-context'
+import { calculatePricing } from '@/lib/pricing'
+
+// Declare Paystack types
+declare global {
+  interface Window {
+    // PaystackPop removed
+  }
+}
 
 interface FormData {
   company: string
@@ -24,6 +32,8 @@ interface FormErrors {
 }
 
 const BookingPage = () => {
+  const { user, userData } = useAuth()
+  const [pricing, setPricing] = useState<any>(null)
   const [formData, setFormData] = useState<FormData>({
     company: '',
     apartment: '',
@@ -41,6 +51,19 @@ const BookingPage = () => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
   const [bookingReference, setBookingReference] = useState('')
+  const [processingPayment, setProcessingPayment] = useState(false)
+
+  // Auto-fill form with user data
+  useEffect(() => {
+    if (user && userData) {
+      setFormData(prev => ({
+        ...prev,
+        email: user.email || '',
+        name: userData.displayName || '',
+        phone: userData.phone || ''
+      }))
+    }
+  }, [user, userData])
 
   // Validation functions
   const validateEmail = (email: string): boolean => {
@@ -130,77 +153,96 @@ const BookingPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!validateForm()) {
+    if (!user || !userData) {
       setSubmitStatus('error')
-      setSubmitMessage('Please correct the errors above and try again.')
+      setSubmitMessage('Please sign in to make a booking.')
+      return
+    }
+    
+    if (!validateForm() || !pricing) {
+      setSubmitStatus('error')
+      setSubmitMessage('Please correct the errors and try again.')
       return
     }
 
     setIsSubmitting(true)
     setSubmitStatus('idle')
-    setErrors({})
 
     try {
-      const response = await fetch('/api/send-email', {
+      // 1. Save pending booking to localStorage
+      const pendingBooking = {
+        userId: user.uid,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        apartment: formData.apartment,
+        checkin: formData.checkin,
+        checkout: formData.checkout,
+        guests: formData.guests,
+        message: formData.message,
+        pricing: pricing
+      }
+      localStorage.setItem('pendingBooking', JSON.stringify(pendingBooking))
+
+      // 2. Initialize Paystack Transaction
+      const paymentReference = `CSH_${Date.now()}_${user.uid.slice(-6)}`
+      const response = await fetch('/api/paystack/initialize', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user.email,
+          amount: pricing.totalAmount,
+          reference: paymentReference,
+          metadata: {
+            custom_fields: [
+              { display_name: "Property", variable_name: "property", value: formData.company },
+              { display_name: "Apartment", variable_name: "apartment", value: formData.apartment }
+            ]
+          }
+        })
       })
 
       const result = await response.json()
 
-      if (response.ok) {
-        setSubmitStatus('success')
-        setSubmitMessage(result.message)
-        setBookingReference(result.reference)
-        
-        // Reset form
-        setFormData({
-          company: '',
-          apartment: '',
-          checkin: '',
-          checkout: '',
-          guests: '',
-          name: '',
-          email: '',
-          phone: '',
-          message: ''
-        })
-      } else {
-        throw new Error(result.error || 'Failed to submit booking request')
+      if (!response.ok) {
+        throw new Error(result.error || 'Payment initialization failed')
       }
+
+      // 3. Redirect to Paystack payment page
+      window.location.href = result.data.authorization_url
+
     } catch (error) {
+      console.error('Payment error:', error)
       setSubmitStatus('error')
       setSubmitMessage(error instanceof Error ? error.message : 'An unexpected error occurred. Please try again.')
-    } finally {
       setIsSubmitting(false)
+      setProcessingPayment(false)
     }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     
-    setFormData({
-      ...formData,
+    setFormData(prev => ({
+      ...prev,
       [name]: value
-    })
+    }))
 
     // Clear error for this field when user starts typing
     if (errors[name]) {
-      setErrors({
-        ...errors,
+      setErrors(prev => ({
+        ...prev,
         [name]: ''
-      })
+      }))
     }
 
     // Clear date errors when either date changes
     if ((name === 'checkin' || name === 'checkout') && errors.dates) {
-      setErrors({
-        ...errors,
+      setErrors(prev => ({
+        ...prev,
         dates: ''
-      })
+      }))
     }
 
     // Reset apartment selection when company changes
@@ -212,6 +254,21 @@ const BookingPage = () => {
       }))
     }
   }
+
+  // Calculate pricing whenever relevant fields change
+  useEffect(() => {
+    if (formData.company && formData.apartment && formData.checkin && formData.checkout) {
+      const pricingDetails = calculatePricing(
+        formData.company,
+        formData.apartment,
+        formData.checkin,
+        formData.checkout
+      )
+      setPricing(pricingDetails)
+    } else {
+      setPricing(null)
+    }
+  }, [formData.company, formData.apartment, formData.checkin, formData.checkout])
 
   // Get today's date for min date validation
   const today = new Date().toISOString().split('T')[0]
@@ -257,19 +314,7 @@ const BookingPage = () => {
   ]
 
   return (
-    <>
-      <Head>
-        <title>Book Your Stay - CO Signature Homes | Luxury Serviced Apartments</title>
-        <meta name="description" content="Book your luxury accommodation with CO Signature Homes. Choose from Pa Cladius Apartments, Cladius Elite Lofts, or Omolaja Flats. Easy online booking with premium amenities and 24/7 services." />
-        <meta name="keywords" content="book accommodation, luxury apartments, serviced apartments booking, Pa Cladius booking, CO Signature Homes reservation, Nigeria accommodation" />
-        <meta property="og:title" content="Book Your Stay - CO Signature Homes" />
-        <meta property="og:description" content="Book luxury serviced apartments across Nigeria with premium amenities and 24/7 services" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Book Your Stay - CO Signature Homes" />
-        <meta name="twitter:description" content="Reserve your luxury accommodation with CO Signature Homes" />
-      </Head>
-      <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black">
         <Navigation />
       
       {/* Hero Section */}
@@ -624,22 +669,79 @@ const BookingPage = () => {
 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || processingPayment}
                   className={`w-full font-semibold py-4 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 ${
-                    isSubmitting
+                    isSubmitting || processingPayment
                       ? 'bg-gray-600 cursor-not-allowed'
                       : 'bg-gold-500 hover:bg-gold-600 transform hover:scale-105'
                   } text-black`}
                 >
-                  {isSubmitting ? (
+                  {processingPayment ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>Submitting Request...</span>
+                      <span>Processing Payment...</span>
+                    </>
+                  ) : isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Initializing Payment...</span>
                     </>
                   ) : (
-                    <span>Submit Booking Request</span>
+                    <span>
+                      {pricing ? `Pay ₦${pricing.totalAmount.toLocaleString()} & Book` : 'Submit Booking Request'}
+                    </span>
                   )}
                 </button>
+
+                {/* Pricing Summary */}
+                {pricing && (
+                  <div className="mt-8 bg-dark-900 rounded-2xl p-6 border border-gray-800">
+                    <div className="flex items-center mb-4">
+                      <Calendar className="w-5 h-5 text-gold-400 mr-2" />
+                      <h3 className="text-xl font-playfair font-semibold text-gold-400">
+                        Booking Summary
+                      </h3>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-gray-300">
+                        <span>{pricing.nights} night{pricing.nights > 1 ? 's' : ''} × ₦{pricing.nightlyRate.toLocaleString()}</span>
+                        <span className="text-white font-semibold">₦{pricing.basePrice.toLocaleString()}</span>
+                      </div>
+                      
+                      <div className="flex justify-between text-gray-300">
+                        <span>VAT (7.5%)</span>
+                        <span className="text-white font-semibold">₦{pricing.taxes.toLocaleString()}</span>
+                      </div>
+                      
+                      <div className="flex justify-between text-gray-300">
+                        <span>Service Fee</span>
+                        <span className="text-white font-semibold">₦{pricing.serviceFee.toLocaleString()}</span>
+                      </div>
+                      
+                      <div className="border-t border-gray-700 pt-3 mt-3">
+                        <div className="flex justify-between text-gray-300">
+                          <span>Subtotal</span>
+                          <span className="text-white font-semibold">₦{pricing.subtotal.toLocaleString()}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="border-t border-gold-500/30 pt-3 mt-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gold-400 font-semibold text-lg">Total Amount</span>
+                          <span className="text-gold-400 font-bold text-2xl">₦{pricing.totalAmount.toLocaleString()}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+                      <p className="text-blue-300 text-sm flex items-start">
+                        <span className="mr-2">💳</span>
+                        <span>Payment will be processed securely through Paystack. You will be redirected to complete payment after clicking "Pay & Book Now".</span>
+                      </p>
+                    </div>
+                  </div>
+                )}
               </form>
             </motion.div>
 
@@ -712,7 +814,6 @@ const BookingPage = () => {
 
         <Footer />
       </div>
-    </>
   )
 }
 

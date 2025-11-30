@@ -23,9 +23,9 @@ const createContactEmailTemplate = (contactData: any) => {
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: #1a1a1a; color: #A88B35; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .header { background: #1a1a1a; color: #F5A623; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
         .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-        .message-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #A88B35; }
+        .message-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F5A623; }
         .urgent { background: #fff3cd; border-left-color: #ffc107; }
         .logo { font-size: 24px; font-weight: bold; }
       </style>
@@ -81,9 +81,9 @@ const createAutoReplyTemplate = (contactData: any) => {
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #A88B35, #967a2e); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .header { background: linear-gradient(135deg, #F5A623, #dd941f); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
         .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-        .message-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #A88B35; }
+        .message-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F5A623; }
         .footer { text-align: center; margin-top: 30px; color: #666; }
         .logo { font-size: 24px; font-weight: bold; }
       </style>
@@ -111,7 +111,7 @@ const createAutoReplyTemplate = (contactData: any) => {
             <ul>
               <li>Our team will review your message carefully</li>
               <li>We'll respond to you within 24 hours</li>
-              <li>If urgent, feel free to call us at +234 913 559 1544</li>
+              <li>If urgent, feel free to call us at +2348110384179</li>
             </ul>
           </div>
 
@@ -119,7 +119,7 @@ const createAutoReplyTemplate = (contactData: any) => {
           
           <div class="footer">
             <p><strong>CO Signature Homes</strong></p>
-            <p>Phone: +234 913 559 1544</p>
+            <p>Phone: +2348110384179</p>
             <p>Email: info@cosignaturehomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>
           </div>
@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     const requiredFields = ['name', 'email', 'message']
     const missingFields = requiredFields.filter(field => !contactData[field])
-    
+
     if (missingFields.length > 0) {
       return NextResponse.json(
         { error: `Missing required fields: ${missingFields.join(', ')}` },

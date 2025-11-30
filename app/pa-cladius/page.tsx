@@ -33,14 +33,14 @@ export default function PaCladiusPage() {
     <>
       <Head>
         <title>Pa Cladius Apartments - Luxury Serviced Apartments in Ilesha | CO Signature Homes</title>
-        <meta name="description" content="Experience luxury at Pa Cladius Apartments in Ilesha, Osun State. 3 fully serviced ensuite units with 24/7 power, security, and premium amenities. Part of CO Signature Homes portfolio." />
-        <meta name="keywords" content="Pa Cladius Apartments, Ilesha apartments, Osun State accommodation, serviced apartments, luxury accommodation, 24/7 power, security, premium amenities" />
+        <meta name="description" content="Experience luxury at Pa Cladius Apartments at Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State. 3 fully serviced ensuite units with 24/7 power, security, and premium amenities. Part of CO Signature Homes portfolio." />
+        <meta name="keywords" content="Pa Cladius Apartments, Alatishe apartments, Ile Ayo, Ilesha apartments, Osun State accommodation, serviced apartments, luxury accommodation, 24/7 power, security, premium amenities" />
         <meta property="og:title" content="Pa Cladius Apartments - Luxury Serviced Apartments in Ilesha" />
-        <meta property="og:description" content="3 fully serviced ensuite units in Ilesha with 24/7 power, security, and premium amenities" />
+        <meta property="og:description" content="3 fully serviced ensuite units at Alatishe, Phase 2, Ile Ayo, Ilesha with 24/7 power, security, and premium amenities" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Pa Cladius Apartments - Luxury Serviced Apartments" />
-        <meta name="twitter:description" content="Experience luxury accommodation in Ilesha, Osun State with premium amenities" />
+        <meta name="twitter:description" content="Experience luxury accommodation at Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State with premium amenities" />
       </Head>
       <motion.main
         initial={{ opacity: 0 }}

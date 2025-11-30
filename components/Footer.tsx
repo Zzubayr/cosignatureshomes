@@ -21,7 +21,7 @@ const Footer = () => {
               />
             </Link>
             <p className="text-gray-300 leading-relaxed">
-              3 fully serviced ensuite units in Ilesha, Osun State with 24/7 power, 
+              3 fully serviced ensuite units at Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State with 24/7 power, 
               security, and premium amenities. Experience comfort and luxury.
             </p>
           </div>
@@ -34,6 +34,8 @@ const Footer = () => {
               <li><Link href="/amenities" className="text-gray-300 hover:text-gold-400 transition-colors">Amenities</Link></li>
               <li><Link href="/gallery" className="text-gray-300 hover:text-gold-400 transition-colors">Gallery</Link></li>
               <li><Link href="/booking" className="text-gray-300 hover:text-gold-400 transition-colors">Booking</Link></li>
+              <li><Link href="/terms" className="text-gray-300 hover:text-gold-400 transition-colors">Terms & Conditions</Link></li>
+              <li><Link href="/privacy" className="text-gray-300 hover:text-gold-400 transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
 
@@ -43,7 +45,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-gold-400" />
-                <span className="text-gray-300">+234 913 559 1544</span>
+                <span className="text-gray-300">+2348110384179</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-gold-400" />
@@ -51,7 +53,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-gold-400" />
-                <span className="text-gray-300">Ilesha, Osun State, Nigeria</span>
+                <span className="text-gray-300">Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State, Nigeria</span>
               </div>
             </div>
           </div>
@@ -60,7 +62,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 pt-8">
           <p className="text-center text-gray-400">
-            &copy; 2025 Pa C.O Service Apartments. All rights reserved.
+            &copy; 2025 CO Signature Homes. All rights reserved.
           </p>
         </div>
       </div>
