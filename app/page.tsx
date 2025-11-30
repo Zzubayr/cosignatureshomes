@@ -360,7 +360,7 @@ export default function Home() {
             </p>
             <div className="border-t border-gray-800 pt-8">
               <p className="text-center text-gray-400">
-                &copy; 2024 CO Signature Homes. All rights reserved.
+                &copy; 2025 CO Signature Homes. All rights reserved.
               </p>
             </div>
           </div>

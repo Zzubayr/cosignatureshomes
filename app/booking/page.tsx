@@ -6,6 +6,7 @@ import { Calendar, Users, Phone, Mail, MapPin, CheckCircle, AlertCircle, Loader2
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { useAuth } from '@/lib/auth-context'
+import { useRouter } from 'next/navigation'
 import { calculatePricing } from '@/lib/pricing'
 
 // Declare Paystack types
@@ -32,7 +33,8 @@ interface FormErrors {
 }
 
 const BookingPage = () => {
-  const { user, userData } = useAuth()
+  const { user, userData, loading } = useAuth()
+  const router = useRouter()
   const [pricing, setPricing] = useState<any>(null)
   const [formData, setFormData] = useState<FormData>({
     company: '',
@@ -52,6 +54,13 @@ const BookingPage = () => {
   const [submitMessage, setSubmitMessage] = useState('')
   const [bookingReference, setBookingReference] = useState('')
   const [processingPayment, setProcessingPayment] = useState(false)
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/auth')
+    }
+  }, [user, loading, router])
 
   // Auto-fill form with user data
   useEffect(() => {
@@ -312,6 +321,18 @@ const BookingPage = () => {
     { number: 3, title: 'Choose Dates', description: 'Pick your check-in and check-out dates' },
     { number: 4, title: 'Submit Request', description: 'Fill in your contact details and submit' }
   ]
+
+  // Show loading screen while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-gold-500 animate-spin mx-auto mb-4" />
+          <p className="text-gray-300">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-black">

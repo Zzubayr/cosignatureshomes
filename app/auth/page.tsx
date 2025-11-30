@@ -9,7 +9,7 @@ import { useAuth } from '@/lib/auth-context'
 import Navigation from '@/components/Navigation'
 
 const AuthPage = () => {
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
