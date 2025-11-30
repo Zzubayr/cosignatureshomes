@@ -18,6 +18,7 @@ interface UserData {
   email: string | null
   displayName: string | null
   photoURL: string | null
+  phone?: string
   createdAt: Date
   role: 'user' | 'admin'
 }
@@ -82,6 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email: user.email,
         displayName: user.displayName,
         photoURL: user.photoURL,
+        phone: data.phone,
         createdAt: data.createdAt?.toDate() || new Date(),
         role: data.role || 'user'
       })
