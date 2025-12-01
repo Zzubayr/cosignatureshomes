@@ -20,8 +20,16 @@ const CallToAction = () => {
             Ready to Book Your Stay?
           </h2>
           <p className="text-lg md:text-xl text-black/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Contact us today to reserve your preferred apartment at Pa Claudius Service Apartments.
-            📞+2348110384179 | <Image src={whatsappicon} alt='whatsapp'/> +2349028425896 | 🌐 cosignatureshomes.com
+            Contact us today to reserve your preferred apartment at Pa Claudius
+            Service Apartments. 📞+2348110384179 |{" "}
+            <Image
+              src={whatsappicon}
+              alt="whatsapp"
+              width={20}
+              height={20}
+              className="w-5 h-5"
+            />{" "}
+            +2349028425896 | 🌐 cosignatureshomes.com
           </p>
           <Link
             href="/booking"
@@ -32,7 +40,7 @@ const CallToAction = () => {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
 
 export default CallToAction
