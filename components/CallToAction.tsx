@@ -2,8 +2,8 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import whatsappicon from "@/public/whatsapp.svg"
 import Link from 'next/link'
+import whatsappicon from '@/public/whatsapp.svg'
 
 const CallToAction = () => {
   return (
@@ -19,18 +19,25 @@ const CallToAction = () => {
           <h2 className="text-4xl md:text-5xl font-playfair font-bold text-black mb-6">
             Ready to Book Your Stay?
           </h2>
-          <p className="text-lg md:text-xl text-black/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Contact us today to reserve your preferred apartment at Pa Claudius
-            Service Apartments. 📞+2348110384179 |{" "}
-            <Image
-              src={whatsappicon}
-              alt="whatsapp"
-              width={20}
-              height={20}
-              className="w-5 h-5"
-            />{" "}
-            +2349028425896 | 🌐 cosignatureshomes.com
-          </p>
+          <div className="text-lg md:text-xl text-black/80 mb-8 max-w-2xl mx-auto leading-relaxed space-y-3">
+            <p>
+              Contact us today to reserve your preferred apartment at Pa Claudius Service Apartments.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-black font-semibold">
+              <span>+234 811 038 4179</span>
+              <span className="flex items-center gap-2">
+                <Image
+                  src={whatsappicon}
+                  alt="WhatsApp"
+                  width={20}
+                  height={20}
+                  className="w-5 h-5"
+                />
+                +234 902 842 5896
+              </span>
+              <span>cosignatureshomes.com</span>
+            </div>
+          </div>
           <Link
             href="/booking"
             className="inline-block bg-black hover:bg-gray-900 text-gold-400 font-semibold px-12 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl text-lg"
@@ -40,7 +47,7 @@ const CallToAction = () => {
         </motion.div>
       </div>
     </section>
-  );
+  )
 }
 
 export default CallToAction
