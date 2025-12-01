@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Phone, Globe2 } from 'lucide-react'
 import whatsappicon from '@/public/whatsapp-black.svg'
 
 const CallToAction = () => {
@@ -24,7 +25,10 @@ const CallToAction = () => {
               Contact us today to reserve your preferred apartment at Pa Claudius Service Apartments.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-black font-semibold">
-              <span>+234 811 038 4179</span>
+              <span className="flex items-center gap-2">
+                <Phone className="w-5 h-5" />
+                +234 811 038 4179
+              </span>
               <span className="flex items-center gap-2">
                 <Image
                   src={whatsappicon}
@@ -35,7 +39,10 @@ const CallToAction = () => {
                 />
                 +234 902 842 5896
               </span>
-              <span>cosignatureshomes.com</span>
+              <span className="flex items-center gap-2">
+                <Globe2 className="w-5 h-5" />
+                cosignatureshomes.com
+              </span>
             </div>
           </div>
           <Link
