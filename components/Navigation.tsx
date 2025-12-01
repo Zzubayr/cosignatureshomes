@@ -302,7 +302,7 @@ const Navigation = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block text-white hover:text-gold-400 transition-colors duration-300 font-inter text-sm tracking-wide py-2"
+                  className="block text-white hover:text-gold-400 transition-colors duration-300 font-inter text-sm pl-4 tracking-wide py-2"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}
