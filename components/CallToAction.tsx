@@ -1,6 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+import whatsappicon from "@/public/whatsapp.svg"
 import Link from 'next/link'
 
 const CallToAction = () => {
@@ -19,7 +21,7 @@ const CallToAction = () => {
           </h2>
           <p className="text-lg md:text-xl text-black/80 mb-8 max-w-2xl mx-auto leading-relaxed">
             Contact us today to reserve your preferred apartment at Pa Claudius Service Apartments.
-            📞+2348110384179 | 💬 +2349028425896 | 🌐 cosignatureshomes.com
+            📞+2348110384179 | <Image src={whatsappicon} alt='whatsapp'/> +2349028425896 | 🌐 cosignatureshomes.com
           </p>
           <Link
             href="/booking"

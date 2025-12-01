@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { Phone, Mail, MapPin, Clock, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -132,7 +133,7 @@ const ContactPage = () => {
       description: 'Available 24/7 for bookings and inquiries'
     },
     {
-      icon: Phone,
+      iconSrc: '/whatsapp.svg',
       title: 'WhatsApp',
       details: '+234 902 842 5896',
       description: 'Chat with us on WhatsApp'
@@ -189,7 +190,17 @@ const ContactPage = () => {
                 className="text-center bg-dark-900 rounded-2xl p-6 border border-gray-800 hover:border-gold-400 transition-colors duration-300"
               >
                 <div className="w-16 h-16 bg-gold-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <info.icon className="w-8 h-8 text-black" />
+                  {info.icon ? (
+                    <info.icon className="w-8 h-8 text-black" />
+                  ) : (
+                    <Image
+                      src={info.iconSrc || '/whatsapp.svg'}
+                      alt={`${info.title} icon`}
+                      width={32}
+                      height={32}
+                      className="w-8 h-8"
+                    />
+                  )}
                 </div>
                 <h3 className="text-xl font-playfair font-semibold text-white mb-2">
                   {info.title}

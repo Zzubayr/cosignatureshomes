@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { Calendar as CalendarIcon, Users, Phone, Mail, MapPin, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -1036,6 +1037,22 @@ const BookingPage = () => {
                   <div>
                     <h3 className="text-white font-semibold">Phone</h3>
                     <p className="text-gray-300">+234 913 559 1544</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-gold-500 rounded-full flex items-center justify-center">
+                    <Image
+                      src="/whatsapp.svg"
+                      alt="WhatsApp"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold">WhatsApp</h3>
+                    <p className="text-gray-300">+234 902 842 5896</p>
                   </div>
                 </div>
 

@@ -42,15 +42,25 @@ const Footer = () => {
           {/* Contact Info */}
           <div className="space-y-4">
             <h3 className="text-gold-400 font-playfair font-semibold text-lg">Contact Info</h3>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-gold-400" />
-                <span className="text-gray-300">+2348110384179</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-gold-400" />
-                <span className="text-gray-300">info@cosignatureshomes.com</span>
-              </div>
+          <div className="space-y-3">
+            <div className="flex items-center space-x-3">
+              <Phone className="w-5 h-5 text-gold-400" />
+              <span className="text-gray-300">+2348110384179</span>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Image
+                src="/whatsapp.svg"
+                alt="WhatsApp"
+                width={20}
+                height={20}
+                className="w-5 h-5"
+              />
+              <span className="text-gray-300">+2349028425896</span>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Mail className="w-5 h-5 text-gold-400" />
+              <span className="text-gray-300">info@cosignatureshomes.com</span>
+            </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-gold-400" />
                 <span className="text-gray-300">Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State, Nigeria</span>
