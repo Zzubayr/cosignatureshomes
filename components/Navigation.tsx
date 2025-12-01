@@ -310,7 +310,7 @@ const Navigation = () => {
               ))}
               
               {/* Mobile Policy Links */}
-              <div className="border-t border-gray-800 pt-4 mt-4">
+              <div className="border-t border-gray-800 pl-4 pt-4 mt-4">
                 <p className="text-gray-400 text-xs uppercase tracking-wide mb-2">Legal</p>
                 <Link
                   href="/terms"
