@@ -10,15 +10,15 @@ export default function OmolajaFlatsPage() {
   return (
     <>
       <Head>
-        <title>Omolaja Flats - Comfortable & Affordable Apartments Coming Soon | CO Signature Homes</title>
-        <meta name="description" content="Omolaja Flats - Comfortable and affordable apartment living with essential amenities and convenient location. Coming soon from CO Signature Homes. Stay updated on our launch." />
-        <meta name="keywords" content="Omolaja Flats, affordable apartments, comfortable living, essential amenities, convenient location, coming soon, CO Signature Homes" />
+        <title>Omolaja Flats - Comfortable & Affordable Apartments Coming Soon | CO Signatures Homes</title>
+        <meta name="description" content="Omolaja Flats - Comfortable and affordable apartment living with essential amenities and convenient location. Coming soon from CO Signatures Homes. Stay updated on our launch." />
+        <meta name="keywords" content="Omolaja Flats, affordable apartments, comfortable living, essential amenities, convenient location, coming soon, CO Signatures Homes" />
         <meta property="og:title" content="Omolaja Flats - Comfortable & Affordable Apartments Coming Soon" />
         <meta property="og:description" content="Comfortable and affordable apartment living with essential amenities - Coming Soon" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Omolaja Flats - Coming Soon" />
-        <meta name="twitter:description" content="Comfortable and affordable apartments coming soon from CO Signature Homes" />
+        <meta name="twitter:description" content="Comfortable and affordable apartments coming soon from CO Signatures Homes" />
       </Head>
       <div className="min-h-screen bg-black">
       {/* Navigation */}
@@ -28,7 +28,7 @@ export default function OmolajaFlatsPage() {
             {/* Back Button */}
             <Link href="/" className="flex items-center space-x-3 text-gold-400 hover:text-gold-300 transition-colors">
               <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to CO Signature Homes</span>
+              <span className="font-medium">Back to CO Signatures Homes</span>
             </Link>
 
             {/* Logo */}
@@ -184,7 +184,7 @@ export default function OmolajaFlatsPage() {
             </p>
             <div className="border-t border-gray-800 pt-8">
               <p className="text-center text-gray-400">
-                &copy; 2025 CO Signature Homes. All rights reserved.
+                &copy; 2025 CO Signatures Homes. All rights reserved.
               </p>
             </div>
           </div>

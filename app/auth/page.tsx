@@ -121,8 +121,8 @@ const AuthPage = () => {
                 </h1>
                 <p className="text-gray-400">
                   {isLogin 
-                    ? 'Sign in to your CO Signature Homes account' 
-                    : 'Join CO Signature Homes for exclusive bookings'
+                    ? 'Sign in to your CO Signatures Homes account' 
+                    : 'Join CO Signatures Homes for exclusive bookings'
                   }
                 </p>
               </div>

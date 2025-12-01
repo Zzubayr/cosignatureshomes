@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     const customerEmailHtml = generateCustomerConfirmationEmail(booking)
 
     await transporter.sendMail({
-      from: `"CO Signature Homes" <${process.env.EMAIL_USER}>`,
+      from: `"CO Signatures Homes" <${process.env.EMAIL_USER}>`,
       to: booking.userEmail,
       subject: `Booking Confirmed - ${booking.bookingReference}`,
       html: customerEmailHtml,
@@ -47,7 +47,7 @@ function generateCustomerConfirmationEmail(booking: any) {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>Booking Confirmed - CO Signature Homes</title>
+      <title>Booking Confirmed - CO Signatures Homes</title>
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -64,7 +64,7 @@ function generateCustomerConfirmationEmail(booking: any) {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">CO Signature Homes</div>
+          <div class="logo">CO Signatures Homes</div>
           <h1>🎉 Booking Confirmed!</h1>
           <div class="success-badge">✅ CONFIRMED</div>
         </div>
@@ -140,7 +140,7 @@ function generateCustomerConfirmationEmail(booking: any) {
           <p>We look forward to providing you with an exceptional stay!</p>
           
           <div class="footer">
-            <p><strong>CO Signature Homes</strong></p>
+            <p><strong>CO Signatures Homes</strong></p>
             <p>Phone: +2348110384179</p>
             <p>Email: info@cosignatureshomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>

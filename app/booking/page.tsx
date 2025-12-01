@@ -151,18 +151,18 @@ const BookingPage = () => {
   }
 
   const companies = [
-    { value: 'pa-cladius', label: 'Pa Cladius Apartments', status: 'available' },
-    { value: 'cladius-elite', label: 'Cladius Elite Lofts', status: 'coming-soon' },
+    { value: 'pa-claudius', label: 'Pa Claudius Apartments', status: 'available' },
+    { value: 'claudius-elite', label: 'Claudius Elite Lofts', status: 'coming-soon' },
     { value: 'omolaja-flats', label: 'Omolaja Flats', status: 'coming-soon' }
   ]
 
   const apartments = {
-    'pa-cladius': [
+    'pa-claudius': [
       { value: 'premium-3bedroom', label: 'Premium 3-Bedroom Ensuite Apartment (Unit 1)' },
       { value: 'executive-3bedroom', label: 'Executive 3-Bedroom Ensuite Apartment (Unit 2)' },
       { value: 'deluxe-1bedroom', label: 'Deluxe 1-Bedroom Ensuite Apartment (Unit 3)' }
     ],
-    'cladius-elite': [],
+    'claudius-elite': [],
     'omolaja-flats': []
   }
 
@@ -510,7 +510,7 @@ const BookingPage = () => {
               Rates & Booking
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Reserve your luxury stay with CO Signature Homes. Follow our simple booking process 
+              Reserve your luxury stay with CO Signatures Homes. Follow our simple booking process 
               to secure your premium accommodation across our portfolio of properties.
             </p>
           </motion.div>

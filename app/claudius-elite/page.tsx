@@ -6,19 +6,19 @@ import Image from 'next/image'
 import Head from 'next/head'
 import { ArrowLeft, Clock, Star, Building2, Mail } from 'lucide-react'
 
-export default function CladiusElitePage() {
+export default function ClaudiusElitePage() {
   return (
     <>
       <Head>
-        <title>Cladius Elite Lofts - Premium Loft Accommodations Coming Soon | CO Signature Homes</title>
-        <meta name="description" content="Cladius Elite Lofts - Premium loft-style accommodations with modern amenities and sophisticated design. Coming soon from CO Signature Homes. Be the first to know when we launch." />
-        <meta name="keywords" content="Cladius Elite Lofts, premium lofts, luxury accommodations, modern amenities, sophisticated design, coming soon, CO Signature Homes" />
-        <meta property="og:title" content="Cladius Elite Lofts - Premium Loft Accommodations Coming Soon" />
+        <title>Claudius Elite Lofts - Premium Loft Accommodations Coming Soon | CO Signatures Homes</title>
+        <meta name="description" content="Claudius Elite Lofts - Premium loft-style accommodations with modern amenities and sophisticated design. Coming soon from CO Signatures Homes. Be the first to know when we launch." />
+        <meta name="keywords" content="Claudius Elite Lofts, premium lofts, luxury accommodations, modern amenities, sophisticated design, coming soon, CO Signatures Homes" />
+        <meta property="og:title" content="Claudius Elite Lofts - Premium Loft Accommodations Coming Soon" />
         <meta property="og:description" content="Premium loft-style accommodations with modern amenities and sophisticated design - Coming Soon" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Cladius Elite Lofts - Coming Soon" />
-        <meta name="twitter:description" content="Premium loft-style accommodations coming soon from CO Signature Homes" />
+        <meta name="twitter:title" content="Claudius Elite Lofts - Coming Soon" />
+        <meta name="twitter:description" content="Premium loft-style accommodations coming soon from CO Signatures Homes" />
       </Head>
       <div className="min-h-screen bg-black">
       {/* Navigation */}
@@ -28,14 +28,14 @@ export default function CladiusElitePage() {
             {/* Back Button */}
             <Link href="/" className="flex items-center space-x-3 text-gold-400 hover:text-gold-300 transition-colors">
               <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to CO Signature Homes</span>
+              <span className="font-medium">Back to CO Signatures Homes</span>
             </Link>
 
             {/* Logo */}
             <div className="flex items-center">
               <Image
                 src="/file_00000000088471f5bf7527121fbff42c.svg"
-                alt="Cladius Elite Lofts"
+                alt="Claudius Elite Lofts"
                 width={200}
                 height={200}
                 className="h-[200px] w-[120px]"
@@ -66,7 +66,7 @@ export default function CladiusElitePage() {
             </motion.div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-playfair font-bold text-white mb-6 leading-tight">
-              <span className="text-gold-400">Cladius Elite</span> Lofts
+              <span className="text-gold-400">Claudius Elite</span> Lofts
             </h1>
             
             <p className="text-lg md:text-xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed">
@@ -127,7 +127,7 @@ export default function CladiusElitePage() {
                 </h2>
               </div>
               <p className="text-gray-300 mb-6">
-                Get notified when Cladius Elite Lofts becomes available. 
+                Get notified when Claudius Elite Lofts becomes available. 
                 Be among the first to experience our premium loft accommodations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -173,7 +173,7 @@ export default function CladiusElitePage() {
             <div className="flex items-center justify-center mb-6">
               <Image
                 src="/file_00000000088471f5bf7527121fbff42c.svg"
-                alt="Cladius Elite Lofts"
+                alt="Claudius Elite Lofts"
                 width={200}
                 height={200}
                 className="h-[200px] w-[120px]"
@@ -184,7 +184,7 @@ export default function CladiusElitePage() {
             </p>
             <div className="border-t border-gray-800 pt-8">
               <p className="text-center text-gray-400">
-                &copy; 2025 CO Signature Homes. All rights reserved.
+                &copy; 2025 CO Signatures Homes. All rights reserved.
               </p>
             </div>
           </div>

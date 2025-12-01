@@ -72,14 +72,14 @@ const TermsPage = () => {
   return (
     <>
       <Head>
-        <title>Terms & Conditions - CO Signature Homes | Luxury Serviced Apartments</title>
-        <meta name="description" content="Read the terms and conditions for CO Signature Homes luxury serviced apartments. Booking policies, check-in procedures, and property rules." />
-        <meta name="keywords" content="terms conditions, booking policy, CO Signature Homes, serviced apartments, check-in rules, cancellation policy" />
-        <meta property="og:title" content="Terms & Conditions - CO Signature Homes" />
+        <title>Terms & Conditions - CO Signatures Homes | Luxury Serviced Apartments</title>
+        <meta name="description" content="Read the terms and conditions for CO Signatures Homes luxury serviced apartments. Booking policies, check-in procedures, and property rules." />
+        <meta name="keywords" content="terms conditions, booking policy, CO Signatures Homes, serviced apartments, check-in rules, cancellation policy" />
+        <meta property="og:title" content="Terms & Conditions - CO Signatures Homes" />
         <meta property="og:description" content="Terms and conditions for luxury serviced apartment bookings" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Terms & Conditions - CO Signature Homes" />
+        <meta name="twitter:title" content="Terms & Conditions - CO Signatures Homes" />
         <meta name="twitter:description" content="Booking terms and property rules for luxury accommodations" />
       </Head>
 
@@ -99,7 +99,7 @@ const TermsPage = () => {
                 Terms & <span className="text-gold-400">Conditions</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                Please read these terms and conditions carefully before booking your stay with CO Signature Homes.
+                Please read these terms and conditions carefully before booking your stay with CO Signatures Homes.
               </p>
               <div className="mt-8 text-sm text-gray-400">
                 <p>Last updated: November 2025</p>
@@ -121,10 +121,10 @@ const TermsPage = () => {
                 className="bg-dark-900 rounded-2xl p-8 border border-gray-800 mb-12"
               >
                 <h2 className="text-2xl font-playfair font-bold text-white mb-4">
-                  Welcome to CO Signature Homes
+                  Welcome to CO Signatures Homes
                 </h2>
                 <p className="text-gray-300 leading-relaxed">
-                  By booking accommodation with CO Signature Homes, you agree to comply with these terms and conditions. 
+                  By booking accommodation with CO Signatures Homes, you agree to comply with these terms and conditions. 
                   These terms govern your use of our services and facilities at our luxury serviced apartments.
                 </p>
               </motion.div>

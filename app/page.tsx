@@ -19,23 +19,23 @@ export default function Home() {
 
   const companies = [
     {
-      id: 'pa-cladius',
-      name: 'Pa Cladius Apartments',
+      id: 'pa-claudius',
+      name: 'Pa Claudius Apartments',
       description: '3 fully serviced ensuite units at Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State with 24/7 power, security, and premium amenities.',
       status: 'available',
       location: 'Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State',
       units: '3 Units Available',
-      href: '/pa-cladius',
+      href: '/pa-claudius',
       image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     },
     {
-      id: 'cladius-elite',
-      name: 'Cladius Elite Lofts',
+      id: 'claudius-elite',
+      name: 'Claudius Elite Lofts',
       description: 'Premium loft-style accommodations with modern amenities and sophisticated design.',
       status: 'coming-soon',
       location: 'Location TBA',
       units: 'Coming Soon',
-      href: '/cladius-elite',
+      href: '/claudius-elite',
       image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     },
     {
@@ -68,7 +68,7 @@ export default function Home() {
             <Link href="/" className="flex items-center">
               <Image
                 src="/MasterLogo.svg"
-                alt="CO Signature Homes"
+                alt="CO Signatures Homes"
                 width={200}
                 height={200}
                 className="h-[200px] w-[120px]"
@@ -101,7 +101,7 @@ export default function Home() {
             >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-playfair font-bold text-white mb-6 leading-tight">
                 Welcome to{' '}
-                <span className="text-gold-400">CO Signature Homes</span>
+                <span className="text-gold-400">CO Signatures Homes</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
                 Your premier destination for luxury serviced apartments across Nigeria. 
@@ -263,7 +263,7 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-playfair font-bold text-white mb-6">
-              Why Choose CO Signature Homes
+              Why Choose CO Signatures Homes
             </h2>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               Experience the difference with our commitment to luxury, security, and exceptional service
@@ -330,7 +330,7 @@ export default function Home() {
               Ready to Experience Luxury?
             </h2>
             <p className="text-lg md:text-xl text-black/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Book your stay with CO Signature Homes and discover premium comfort across our portfolio of properties.
+              Book your stay with CO Signatures Homes and discover premium comfort across our portfolio of properties.
             </p>
             <Link
               href="/booking"
@@ -349,7 +349,7 @@ export default function Home() {
             <Link href="/" className="flex items-center justify-center mb-6">
               <Image
                 src="/MasterLogo.svg"
-                alt="CO Signature Homes"
+                alt="CO Signatures Homes"
                 width={200}
                 height={200}
                 className="h-[200px] w-[120px]"
@@ -360,7 +360,7 @@ export default function Home() {
             </p>
             <div className="border-t border-gray-800 pt-8">
               <p className="text-center text-gray-400">
-                &copy; 2025 CO Signature Homes. All rights reserved.
+                &copy; 2025 CO Signatures Homes. All rights reserved.
               </p>
             </div>
           </div>

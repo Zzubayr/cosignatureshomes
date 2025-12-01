@@ -66,10 +66,10 @@ const Navigation = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/pa-cladius" className="flex items-center">
+          <Link href="/pa-claudius" className="flex items-center">
             <Image
-              src="/PA Cladius.svg"
-              alt="Pa Cladius Apartments"
+              src="/PA Claudius.svg"
+              alt="Pa Claudius Apartments"
               width={200}
               height={200}
               className="h-[200px] w-[120px]"

@@ -19,7 +19,7 @@ const createCustomerEmailTemplate = (bookingData: any) => {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>Booking Confirmation - CO Signature Homes</title>
+      <title>Booking Confirmation - CO Signatures Homes</title>
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -34,12 +34,12 @@ const createCustomerEmailTemplate = (bookingData: any) => {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">CO SIGNATURE HOMES</div>
+          <div class="logo">CO SIGNATURES HOMES</div>
           <h1>Booking Confirmation</h1>
         </div>
         <div class="content">
           <h2>Dear ${bookingData.name},</h2>
-          <p>Thank you for choosing CO Signature Homes! We're delighted to confirm your booking request.</p>
+          <p>Thank you for choosing CO Signatures Homes! We're delighted to confirm your booking request.</p>
           
           <div class="booking-details">
             <h3>Booking Details</h3>
@@ -68,7 +68,7 @@ const createCustomerEmailTemplate = (bookingData: any) => {
           <p>We look forward to hosting you!</p>
           
           <div class="footer">
-            <p><strong>CO Signature Homes</strong></p>
+            <p><strong>CO Signatures Homes</strong></p>
             <p>Phone: +2348110384179</p>
             <p>Email: info@cosignatureshomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>
@@ -86,7 +86,7 @@ const createAdminEmailTemplate = (bookingData: any) => {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>New Booking Request - CO Signature Homes</title>
+      <title>New Booking Request - CO Signatures Homes</title>
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -100,7 +100,7 @@ const createAdminEmailTemplate = (bookingData: any) => {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">CO SIGNATURE HOMES</div>
+          <div class="logo">CO SIGNATURES HOMES</div>
           <h1>🔔 New Booking Request</h1>
         </div>
         <div class="content">
@@ -176,18 +176,18 @@ export async function POST(request: NextRequest) {
 
     // Get company and apartment names
     const companies = {
-      'pa-cladius': 'Pa Cladius Apartments',
-      'cladius-elite': 'Cladius Elite Lofts',
+      'pa-claudius': 'Pa Claudius Apartments',
+      'claudius-elite': 'Claudius Elite Lofts',
       'omolaja-flats': 'Omolaja Flats'
     }
 
     const apartments = {
-      'pa-cladius': {
+      'pa-claudius': {
         'premium-3bedroom': 'Premium 3-Bedroom Ensuite Apartment (Unit 1)',
         'executive-3bedroom': 'Executive 3-Bedroom Ensuite Apartment (Unit 2)',
         'deluxe-1bedroom': 'Deluxe 1-Bedroom Ensuite Apartment (Unit 3)'
       },
-      'cladius-elite': {
+      'claudius-elite': {
         'coming-soon': 'Coming Soon - Premium Lofts'
       },
       'omolaja-flats': {
@@ -207,7 +207,7 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email to customer
     const customerMailOptions = {
-      from: `"CO Signature Homes" <${process.env.EMAIL_USER}>`,
+      from: `"CO Signatures Homes" <${process.env.EMAIL_USER}>`,
       to: bookingData.email,
       subject: `Booking Confirmation - ${enrichedBookingData.companyName} | Ref: ${reference}`,
       html: createCustomerEmailTemplate(enrichedBookingData),
@@ -215,7 +215,7 @@ export async function POST(request: NextRequest) {
 
     // Send notification email to admin
     const adminMailOptions = {
-      from: `"CO Signature Homes Bookings" <${process.env.EMAIL_USER}>`,
+      from: `"CO Signatures Homes Bookings" <${process.env.EMAIL_USER}>`,
       to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
       subject: `🔔 New Booking Request - ${enrichedBookingData.companyName} | Ref: ${reference}`,
       html: createAdminEmailTemplate(enrichedBookingData),

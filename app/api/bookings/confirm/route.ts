@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       <html>
       <head>
         <meta charset="utf-8">
-        <title>Booking Confirmed - CO Signature Homes</title>
+        <title>Booking Confirmed - CO Signatures Homes</title>
         <style>
           body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
           .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       <body>
         <div class="container">
           <div class="header">
-            <div class="logo">CO Signature Homes</div>
+            <div class="logo">CO Signatures Homes</div>
             <h1>🎉 Booking Confirmed</h1>
             <div class="confirmed-badge">✅ CONFIRMED</div>
           </div>
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
             <p>Check-in time is from 2:00 PM.</p>
             
             <div class="footer">
-              <p><strong>CO Signature Homes</strong></p>
+              <p><strong>CO Signatures Homes</strong></p>
               <p>Phone: +234 913 559 1544</p>
               <p>WhatsApp: +234 902 842 5896</p>
               <p>Email: info@cosignatureshomes.com</p>
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
     `
 
     const mailResult = await transporter.sendMail({
-      from: `"CO Signature Homes" <${process.env.EMAIL_USER}>`,
+      from: `"CO Signatures Homes" <${process.env.EMAIL_USER}>`,
       to: booking.userEmail,
       subject: `Booking Confirmed - ${booking.bookingReference}`,
       html: emailHtml,

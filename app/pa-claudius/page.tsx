@@ -10,7 +10,7 @@ import FeaturedAmenities from '@/components/FeaturedAmenities'
 import CallToAction from '@/components/CallToAction'
 import Footer from '@/components/Footer'
 
-export default function PaCladiusPage() {
+export default function PaClaudiusPage() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -32,14 +32,14 @@ export default function PaCladiusPage() {
   return (
     <>
       <Head>
-        <title>Pa Cladius Apartments - Luxury Serviced Apartments in Ilesha | CO Signature Homes</title>
-        <meta name="description" content="Experience luxury at Pa Cladius Apartments at Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State. 3 fully serviced ensuite units with 24/7 power, security, and premium amenities. Part of CO Signature Homes portfolio." />
-        <meta name="keywords" content="Pa Cladius Apartments, Alatishe apartments, Ile Ayo, Ilesha apartments, Osun State accommodation, serviced apartments, luxury accommodation, 24/7 power, security, premium amenities" />
-        <meta property="og:title" content="Pa Cladius Apartments - Luxury Serviced Apartments in Ilesha" />
+        <title>Pa Claudius Apartments - Luxury Serviced Apartments in Ilesha | CO Signatures Homes</title>
+        <meta name="description" content="Experience luxury at Pa Claudius Apartments at Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State. 3 fully serviced ensuite units with 24/7 power, security, and premium amenities. Part of CO Signatures Homes portfolio." />
+        <meta name="keywords" content="Pa Claudius Apartments, Alatishe apartments, Ile Ayo, Ilesha apartments, Osun State accommodation, serviced apartments, luxury accommodation, 24/7 power, security, premium amenities" />
+        <meta property="og:title" content="Pa Claudius Apartments - Luxury Serviced Apartments in Ilesha" />
         <meta property="og:description" content="3 fully serviced ensuite units at Alatishe, Phase 2, Ile Ayo, Ilesha with 24/7 power, security, and premium amenities" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Pa Cladius Apartments - Luxury Serviced Apartments" />
+        <meta name="twitter:title" content="Pa Claudius Apartments - Luxury Serviced Apartments" />
         <meta name="twitter:description" content="Experience luxury accommodation at Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State with premium amenities" />
       </Head>
       <motion.main

@@ -31,8 +31,8 @@ export interface PricingBreakdown {
 
 // Property and Apartment Configurations
 export const PROPERTIES: Record<string, PropertyConfig> = {
-  'pa-cladius': {
-    name: 'Pa Cladius Apartments',
+  'pa-claudius': {
+    name: 'Pa Claudius Apartments',
     apartments: [
       {
         value: 'premium-3bedroom',

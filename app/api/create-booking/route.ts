@@ -193,7 +193,7 @@ async function sendCustomerEmail(booking: any) {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>Booking Request Received - CO Signature Homes</title>
+      <title>Booking Request Received - CO Signatures Homes</title>
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -209,7 +209,7 @@ async function sendCustomerEmail(booking: any) {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">CO Signature Homes</div>
+          <div class="logo">CO Signatures Homes</div>
           <h1>✅ Payment Received</h1>
           <div class="pending-badge">⏳ PENDING ADMIN REVIEW</div>
         </div>
@@ -247,7 +247,7 @@ async function sendCustomerEmail(booking: any) {
           <p>If you have any questions, please don't hesitate to contact us.</p>
           
           <div class="footer">
-            <p><strong>CO Signature Homes</strong></p>
+            <p><strong>CO Signatures Homes</strong></p>
             <p>Phone: +2348110384179</p>
             <p>Email: info@cosignatureshomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>
@@ -272,7 +272,7 @@ async function sendAdminNotification(booking: any) {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>New Booking Request - CO Signature Homes Admin</title>
+      <title>New Booking Request - CO Signatures Homes Admin</title>
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -340,7 +340,7 @@ async function sendAdminNotification(booking: any) {
   `
 
   await transporter.sendMail({
-    from: `"CO Signature Homes Admin" <${process.env.EMAIL_USER}>`,
+    from: `"CO Signatures Homes Admin" <${process.env.EMAIL_USER}>`,
     to: process.env.ADMIN_EMAIL,
     subject: `🚨 New Booking Request - ${booking.bookingReference}`,
     html: emailHtml,

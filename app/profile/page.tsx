@@ -239,7 +239,7 @@ const ProfilePage = () => {
                   <div className="text-center py-12">
                     <Calendar className="w-16 h-16 text-gray-600 mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-white mb-2">No bookings yet</h3>
-                    <p className="text-gray-400 mb-6">Start your luxury experience with CO Signature Homes</p>
+                    <p className="text-gray-400 mb-6">Start your luxury experience with CO Signatures Homes</p>
                     <button
                       onClick={() => router.push('/booking')}
                       className="bg-gold-500 hover:bg-gold-600 text-black font-semibold px-6 py-3 rounded-lg transition-colors"

@@ -19,7 +19,7 @@ const createContactEmailTemplate = (contactData: any) => {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>New Contact Message - CO Signature Homes</title>
+      <title>New Contact Message - CO Signatures Homes</title>
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -33,7 +33,7 @@ const createContactEmailTemplate = (contactData: any) => {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">CO SIGNATURE HOMES</div>
+          <div class="logo">CO SIGNATURES HOMES</div>
           <h1>📧 New Contact Message</h1>
         </div>
         <div class="content">
@@ -77,7 +77,7 @@ const createAutoReplyTemplate = (contactData: any) => {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>Thank You - CO Signature Homes</title>
+      <title>Thank You - CO Signatures Homes</title>
       <style>
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -91,12 +91,12 @@ const createAutoReplyTemplate = (contactData: any) => {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">CO SIGNATURE HOMES</div>
+          <div class="logo">CO SIGNATURES HOMES</div>
           <h1>Thank You for Contacting Us!</h1>
         </div>
         <div class="content">
           <h2>Dear ${contactData.name},</h2>
-          <p>Thank you for reaching out to CO Signature Homes! We have received your message and appreciate you taking the time to contact us.</p>
+          <p>Thank you for reaching out to CO Signatures Homes! We have received your message and appreciate you taking the time to contact us.</p>
           
           <div class="message-details">
             <h3>Your Message Details</h3>
@@ -118,7 +118,7 @@ const createAutoReplyTemplate = (contactData: any) => {
           <p>We look forward to assisting you!</p>
           
           <div class="footer">
-            <p><strong>CO Signature Homes</strong></p>
+            <p><strong>CO Signatures Homes</strong></p>
             <p>Phone: +2348110384179</p>
             <p>Email: info@cosignatureshomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>
@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
 
     // Send notification email to admin
     const adminMailOptions = {
-      from: `"CO Signature Homes Contact" <${process.env.EMAIL_USER}>`,
+      from: `"CO Signatures Homes Contact" <${process.env.EMAIL_USER}>`,
       to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
       subject: `📧 New Contact Message${contactData.subject ? ` - ${contactData.subject}` : ''} | From: ${contactData.name}`,
       html: createContactEmailTemplate(contactData),
@@ -166,9 +166,9 @@ export async function POST(request: NextRequest) {
 
     // Send auto-reply to customer
     const customerMailOptions = {
-      from: `"CO Signature Homes" <${process.env.EMAIL_USER}>`,
+      from: `"CO Signatures Homes" <${process.env.EMAIL_USER}>`,
       to: contactData.email,
-      subject: `Thank you for contacting CO Signature Homes${contactData.subject ? ` - Re: ${contactData.subject}` : ''}`,
+      subject: `Thank you for contacting CO Signatures Homes${contactData.subject ? ` - Re: ${contactData.subject}` : ''}`,
       html: createAutoReplyTemplate(contactData),
     }
 

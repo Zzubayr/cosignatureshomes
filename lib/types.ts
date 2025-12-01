@@ -25,7 +25,7 @@ export interface Booking {
   userPhone: string
   
   // Property details
-  property: 'pa-cladius' | 'cladius-elite' | 'omolaja-flats'
+  property: 'pa-claudius' | 'claudius-elite' | 'omolaja-flats'
   apartment: string
   propertyName: string
   apartmentName: string

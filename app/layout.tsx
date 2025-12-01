@@ -16,19 +16,19 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'CO Signature Homes - Premium Serviced Apartments in Nigeria',
-  description: 'Discover luxury serviced apartments across Nigeria with CO Signature Homes. Featuring Pa Cladius Apartments at Alatishe, Phase 2, Ile Ayo, Ilesha, Cladius Elite Lofts, and Omolaja Flats - premium accommodation with 24/7 power, security, and world-class amenities.',
-  keywords: 'serviced apartments, Nigeria, luxury accommodation, Pa Cladius, Alatishe, Ile Ayo, Cladius Elite, Omolaja Flats, Ilesha, Osun State, 24/7 power, security, premium amenities',
-  authors: [{ name: 'CO Signature Homes' }],
+  title: 'CO Signatures Homes - Premium Serviced Apartments in Nigeria',
+  description: 'Discover luxury serviced apartments across Nigeria with CO Signatures Homes. Featuring Pa Claudius Apartments at Alatishe, Phase 2, Ile Ayo, Ilesha, Claudius Elite Lofts, and Omolaja Flats - premium accommodation with 24/7 power, security, and world-class amenities.',
+  keywords: 'serviced apartments, Nigeria, luxury accommodation, Pa Claudius, Alatishe, Ile Ayo, Claudius Elite, Omolaja Flats, Ilesha, Osun State, 24/7 power, security, premium amenities',
+  authors: [{ name: 'CO Signatures Homes' }],
   openGraph: {
-    title: 'CO Signature Homes - Premium Serviced Apartments in Nigeria',
+    title: 'CO Signatures Homes - Premium Serviced Apartments in Nigeria',
     description: 'Luxury serviced apartments across Nigeria with premium amenities and 24/7 services',
     type: 'website',
-    siteName: 'CO Signature Homes',
+    siteName: 'CO Signatures Homes',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CO Signature Homes - Premium Serviced Apartments',
+    title: 'CO Signatures Homes - Premium Serviced Apartments',
     description: 'Luxury serviced apartments across Nigeria with premium amenities and 24/7 services',
   },
 }

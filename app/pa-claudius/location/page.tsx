@@ -5,7 +5,7 @@ import { MapPin, ShoppingCart, Heart, Utensils, Building2, Camera, Car, Shield }
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 
-const PaCladiusLocationPage = () => {
+const PaClaudiusLocationPage = () => {
   const nearbyAttractions = [
     {
       icon: ShoppingCart,
@@ -85,7 +85,7 @@ const PaCladiusLocationPage = () => {
               Located in the Heart of <span className="text-gold-400">Ilesha</span>, Osun State
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Pa Cladius Apartments at Alatishe, Phase 2, Ile Ayo sit in a secure, peaceful community with fast access to markets, 
+              Pa Claudius Apartments at Alatishe, Phase 2, Ile Ayo sit in a secure, peaceful community with fast access to markets, 
               restaurants, major roads, and business districts. Experience the perfect blend of tranquility 
               and convenience in Nigeria's historic city.
             </p>
@@ -125,7 +125,7 @@ const PaCladiusLocationPage = () => {
                 <h3 className="text-2xl font-playfair font-semibold text-white mb-2">
                   Interactive Map
                 </h3>
-                <p className="text-gray-300 mb-1">Pa Cladius Apartments</p>
+                <p className="text-gray-300 mb-1">Pa Claudius Apartments</p>
                 <p className="text-gold-400 font-semibold">Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State, Nigeria</p>
               </div>
             </div>
@@ -140,7 +140,7 @@ const PaCladiusLocationPage = () => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Pa Cladius Apartments Location - Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State, Nigeria"
+                title="Pa Claudius Apartments Location - Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State, Nigeria"
               ></iframe>
             </div>
             
@@ -272,7 +272,7 @@ const PaCladiusLocationPage = () => {
               Experience Ilesha's Best Location
             </h2>
             <p className="text-lg md:text-xl text-black/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Book your stay at Pa Cladius Apartments and enjoy the perfect combination 
+              Book your stay at Pa Claudius Apartments and enjoy the perfect combination 
               of peaceful living and urban convenience.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -283,7 +283,7 @@ const PaCladiusLocationPage = () => {
                 Book Your Stay
               </a>
               <a
-                href="/pa-cladius"
+                href="/pa-claudius"
                 className="border-2 border-black text-black hover:bg-black hover:text-gold-400 font-semibold px-8 py-4 rounded-lg transition-all duration-300"
               >
                 View Apartments
@@ -298,4 +298,4 @@ const PaCladiusLocationPage = () => {
   )
 }
 
-export default PaCladiusLocationPage
+export default PaClaudiusLocationPage

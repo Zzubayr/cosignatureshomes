@@ -11,10 +11,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Logo and Description */}
           <div className="space-y-4">
-            <Link href="/pa-cladius" className="flex items-center">
+            <Link href="/pa-claudius" className="flex items-center">
               <Image
-                src="/PA Cladius.svg"
-                alt="Pa Cladius Apartments"
+                src="/PA Claudius.svg"
+                alt="Pa Claudius Apartments"
                 width={200}
                 height={200}
                 className="h-[200px] w-[120px]"
@@ -62,7 +62,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 pt-8">
           <p className="text-center text-gray-400">
-            &copy; 2025 CO Signature Homes. All rights reserved.
+            &copy; 2025 CO Signatures Homes. All rights reserved.
           </p>
         </div>
       </div>

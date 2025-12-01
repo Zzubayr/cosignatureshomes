@@ -66,14 +66,14 @@ const PrivacyPage = () => {
   return (
     <>
       <Head>
-        <title>Privacy Policy - CO Signature Homes | Data Protection & Security</title>
-        <meta name="description" content="Learn how CO Signature Homes protects your privacy and personal data. Our commitment to data security and guest privacy." />
-        <meta name="keywords" content="privacy policy, data protection, CO Signature Homes, personal information, CCTV policy, cookies, data security" />
-        <meta property="og:title" content="Privacy Policy - CO Signature Homes" />
+        <title>Privacy Policy - CO Signatures Homes | Data Protection & Security</title>
+        <meta name="description" content="Learn how CO Signatures Homes protects your privacy and personal data. Our commitment to data security and guest privacy." />
+        <meta name="keywords" content="privacy policy, data protection, CO Signatures Homes, personal information, CCTV policy, cookies, data security" />
+        <meta property="og:title" content="Privacy Policy - CO Signatures Homes" />
         <meta property="og:description" content="Our commitment to protecting your privacy and personal data" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Privacy Policy - CO Signature Homes" />
+        <meta name="twitter:title" content="Privacy Policy - CO Signatures Homes" />
         <meta name="twitter:description" content="Data protection and privacy practices for luxury accommodations" />
       </Head>
 
@@ -123,7 +123,7 @@ const PrivacyPage = () => {
                       Our Commitment to Your Privacy
                     </h2>
                     <p className="text-gray-300 leading-relaxed">
-                      At CO Signature Homes, we are committed to protecting your privacy and ensuring the security of your personal information. 
+                      At CO Signatures Homes, we are committed to protecting your privacy and ensuring the security of your personal information. 
                       This privacy policy explains how we collect, use, store, and protect your data when you use our services.
                     </p>
                   </div>

@@ -87,7 +87,7 @@ const GalleryPage = () => {
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Explore our modern luxury interiors and discover the elegant spaces 
-              that await you at Pa CO Signature Homes.
+              that await you at Pa CO Signatures Homes.
             </p>
           </motion.div>
         </div>
