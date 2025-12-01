@@ -32,7 +32,7 @@ export default function PaymentCallback() {
     try {
       console.log('Starting payment verification for reference:', reference)
       
-      // Verify payment with Paystack
+      // Verify payment with Paystack through our backend
       const verifyResponse = await fetch('/api/paystack/verify', {
         method: 'POST',
         headers: {
@@ -44,47 +44,31 @@ export default function PaymentCallback() {
       const verifyResult = await verifyResponse.json()
       console.log('Payment verification result:', verifyResult)
 
-      if (verifyResult.success) {
-        setPaymentData(verifyResult.data)
-        
-        // Get booking data from localStorage (stored during booking process)
-        const storedBookingData = localStorage.getItem('pendingBooking')
-        console.log('Stored booking data:', storedBookingData ? 'Found' : 'Not found')
-        
-        if (storedBookingData) {
-          const bookingInfo = JSON.parse(storedBookingData)
-          console.log('Creating booking with data:', bookingInfo)
-          
-          // Create booking with payment confirmation
-          const bookingResponse = await fetch('/api/create-booking', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              ...bookingInfo,
-              paymentReference: reference
-            }),
-          })
-
-          const bookingResult = await bookingResponse.json()
-          console.log('Booking creation result:', bookingResult)
-
-          if (bookingResult.success) {
-            setBookingData(bookingResult)
-            setStatus('success')
-            // Clear stored booking data
-            localStorage.removeItem('pendingBooking')
-          } else {
-            console.error('Booking creation failed:', bookingResult.error)
-            setStatus('failed')
-          }
-        } else {
-          console.error('No pending booking data found in localStorage')
-          setStatus('failed')
-        }
-      } else {
+      if (!verifyResult.success) {
         console.error('Payment verification failed:', verifyResult)
+        setStatus('failed')
+        return
+      }
+
+      setPaymentData(verifyResult.data)
+
+      // Create booking server-side using trusted payment metadata
+      const bookingResponse = await fetch('/api/create-booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reference }),
+      })
+
+      const bookingResult = await bookingResponse.json()
+      console.log('Booking creation result:', bookingResult)
+
+      if (bookingResult.success) {
+        setBookingData(bookingResult)
+        setStatus('success')
+      } else {
+        console.error('Booking creation failed:', bookingResult.error)
         setStatus('failed')
       }
     } catch (error) {

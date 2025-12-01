@@ -1,11 +1,79 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/lib/firebase'
+import { collection, query, where, getDocs } from 'firebase/firestore'
+import { calculatePricing } from '@/lib/pricing'
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, amount, reference, metadata } = await request.json()
+        const { email, reference, metadata, bookingDetails, customer } = await request.json()
+        const metadataObj: Record<string, any> = metadata || {}
 
-        if (!email || !amount || !reference) {
-            return NextResponse.json({ error: 'Email, amount, and reference are required' }, { status: 400 })
+        if (!email || !reference) {
+            return NextResponse.json({ error: 'Email and reference are required' }, { status: 400 })
+        }
+
+        // Server-side availability check
+        if (bookingDetails) {
+            const { company, property: propertyFromClient, apartment, checkin, checkout } = bookingDetails
+            const property = propertyFromClient || company
+
+            if (property && apartment && checkin && checkout) {
+                const pricing = calculatePricing(property, apartment, checkin, checkout)
+                if (!pricing) {
+                    return NextResponse.json({ error: 'Unable to calculate pricing for selected apartment' }, { status: 400 })
+                }
+
+                const bookingsRef = collection(db, 'bookings')
+                const q = query(
+                    bookingsRef,
+                    where('property', '==', property),
+                    where('apartment', '==', apartment),
+                    where('status', 'in', ['confirmed', 'pending'])
+                )
+
+                const querySnapshot = await getDocs(q)
+                const checkinDate = new Date(checkin)
+                const checkoutDate = new Date(checkout)
+
+                let isBooked = false
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data()
+                    if (data.checkIn && data.checkOut) {
+                        const bookingStart = data.checkIn.toDate()
+                        const bookingEnd = data.checkOut.toDate()
+
+                        // Treat checkout as exclusive so a new guest can check in on the same day another checks out
+                        if (checkinDate < bookingEnd && checkoutDate > bookingStart) {
+                            isBooked = true
+                        }
+                    }
+                })
+
+                if (isBooked) {
+                    return NextResponse.json({
+                        error: 'Selected dates are no longer available. Please choose different dates.'
+                    }, { status: 400 })
+                }
+
+                // Prepare metadata to be echoed back on verification
+                metadataObj.bookingPayload = {
+                    property,
+                    apartment,
+                    checkin,
+                    checkout,
+                    guests: bookingDetails.guests,
+                    message: bookingDetails.message || '',
+                    userId: bookingDetails.userId,
+                    name: customer?.name,
+                    email,
+                    phone: customer?.phone,
+                    totalAmount: pricing.totalAmount
+                }
+
+                // Override amount using trusted pricing
+                metadataObj.amount = pricing.totalAmount
+            }
         }
 
         // Amount already includes Paystack fees from frontend calculation
@@ -13,13 +81,18 @@ export async function POST(request: NextRequest) {
 
         console.log('Initializing Paystack payment with callback URL:', callbackUrl)
 
+        const amountToCharge = metadataObj?.amount
+        if (!amountToCharge) {
+            return NextResponse.json({ error: 'Calculated amount missing' }, { status: 400 })
+        }
+
         const paystackData = {
             email,
-            amount: amount * 100, // Paystack expects amount in kobo
+            amount: amountToCharge * 100, // Paystack expects amount in kobo
             reference,
             currency: 'NGN',
             callback_url: callbackUrl,
-            metadata
+            metadata: metadataObj
         }
 
         const response = await fetch('https://api.paystack.co/transaction/initialize', {

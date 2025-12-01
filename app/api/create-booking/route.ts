@@ -21,48 +21,77 @@ function generateBookingReference(): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const bookingData = await request.json()
+    const { reference } = await request.json()
 
-    // Validate required fields
-    if (!bookingData.name || !bookingData.email || !bookingData.phone ||
-      !bookingData.company || !bookingData.apartment ||
-      !bookingData.checkin || !bookingData.checkout || !bookingData.guests) {
-      return NextResponse.json({ error: 'All required fields must be provided' }, { status: 400 })
+    if (!reference) {
+      return NextResponse.json({ error: 'Payment reference is required' }, { status: 400 })
     }
 
-    // Validate payment reference (required for booking creation)
-    if (!bookingData.paymentReference) {
-      return NextResponse.json({ error: 'Payment confirmation is required to create booking' }, { status: 400 })
+    // Verify payment directly with Paystack to retrieve trusted metadata
+    const verifyResponse = await fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+        'Content-Type': 'application/json',
+      },
+    })
+
+    const verifyResult = await verifyResponse.json()
+
+    if (!verifyResponse.ok || verifyResult.data?.status !== 'success') {
+      return NextResponse.json({ error: 'Payment verification failed' }, { status: 400 })
     }
 
-    // Validate user authentication
-    if (!bookingData.userId) {
-      return NextResponse.json({ error: 'User authentication is required to create booking' }, { status: 401 })
+    const paymentData = verifyResult.data
+    const bookingPayload = paymentData.metadata?.bookingPayload
+
+    if (!bookingPayload) {
+      return NextResponse.json({ error: 'Missing booking details from payment metadata' }, { status: 400 })
+    }
+
+    const {
+      property,
+      apartment,
+      checkin,
+      checkout,
+      guests,
+      message,
+      userId,
+      name,
+      email,
+      phone
+    } = bookingPayload
+
+    if (!userId || !property || !apartment || !checkin || !checkout || !guests || !name || !email || !phone) {
+      return NextResponse.json({ error: 'Incomplete booking details' }, { status: 400 })
+    }
+
+    // Recalculate pricing to ensure it matches payment amount
+    const pricingDetails = calculatePricing(property, apartment, checkin, checkout)
+
+    if (!pricingDetails) {
+      return NextResponse.json({ error: 'Unable to calculate pricing' }, { status: 400 })
+    }
+
+    const paidAmount = paymentData.amount / 100
+    if (pricingDetails.totalAmount !== paidAmount) {
+      return NextResponse.json({ error: 'Paid amount does not match booking total' }, { status: 400 })
     }
 
     // Parse dates
-    const checkInDate = new Date(bookingData.checkin)
-    const checkOutDate = new Date(bookingData.checkout)
+    const checkInDate = new Date(checkin)
+    const checkOutDate = new Date(checkout)
 
-    // Validate dates
-    if (checkInDate < new Date()) {
+    // Validate dates - allow same-day bookings
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    if (checkInDate < today) {
       return NextResponse.json({ error: 'Check-in date cannot be in the past' }, { status: 400 })
     }
 
     if (checkOutDate <= checkInDate) {
       return NextResponse.json({ error: 'Check-out date must be after check-in date' }, { status: 400 })
-    }
-
-    // Calculate pricing using shared module
-    const pricingDetails = calculatePricing(
-      bookingData.company,
-      bookingData.apartment,
-      bookingData.checkin,
-      bookingData.checkout
-    )
-
-    if (!pricingDetails) {
-      return NextResponse.json({ error: 'Unable to calculate pricing' }, { status: 400 })
     }
 
     const { nights, basePrice, taxes, serviceFee, subtotal, paystackFee, totalAmount } = pricingDetails
@@ -71,20 +100,20 @@ export async function POST(request: NextRequest) {
     const bookingReference = generateBookingReference()
 
     // Get property and apartment names from shared module
-    const { propertyName, apartmentName } = getPropertyDetails(bookingData.company, bookingData.apartment)
+    const { propertyName, apartmentName } = getPropertyDetails(property, apartment)
 
     // Create booking object for emails
     const booking = {
-      userEmail: bookingData.email,
-      userName: bookingData.name,
-      userPhone: bookingData.phone,
-      property: bookingData.company,
-      apartment: bookingData.apartment,
+      userEmail: email,
+      userName: name,
+      userPhone: phone,
+      property,
+      apartment,
       propertyName,
       apartmentName,
       checkIn: checkInDate,
       checkOut: checkOutDate,
-      guests: parseInt(bookingData.guests),
+      guests: parseInt(guests),
       nights,
       basePrice,
       taxes,
@@ -92,28 +121,28 @@ export async function POST(request: NextRequest) {
       paystackFee,
       subtotal,
       totalAmount,
-      paymentReference: bookingData.paymentReference,
-      userId: bookingData.userId,
-      specialRequests: bookingData.message || null,
+      paymentReference: reference,
+      userId,
+      specialRequests: message || null,
       bookingReference,
       createdAt: new Date()
     }
 
     // Create booking in Firestore
     await addDoc(collection(db, 'bookings'), {
-      userId: bookingData.userId,
-      userEmail: bookingData.email,
-      userName: bookingData.name,
-      userPhone: bookingData.phone,
+      userId,
+      userEmail: email,
+      userName: name,
+      userPhone: phone,
 
-      property: bookingData.company,
-      apartment: bookingData.apartment,
+      property,
+      apartment,
       propertyName,
       apartmentName,
 
       checkIn: Timestamp.fromDate(checkInDate),
       checkOut: Timestamp.fromDate(checkOutDate),
-      guests: parseInt(bookingData.guests),
+      guests: parseInt(guests),
       nights,
 
       basePrice,
@@ -124,11 +153,11 @@ export async function POST(request: NextRequest) {
       totalAmount,
 
       paymentStatus: 'paid',
-      paymentReference: bookingData.paymentReference,
+      paymentReference: reference,
       paymentMethod: 'paystack',
 
       status: 'pending', // Admin will confirm
-      specialRequests: bookingData.message || '',
+      specialRequests: message || '',
 
       bookingReference,
       createdAt: Timestamp.now(),
@@ -220,7 +249,7 @@ async function sendCustomerEmail(booking: any) {
           <div class="footer">
             <p><strong>CO Signature Homes</strong></p>
             <p>Phone: +2348110384179</p>
-            <p>Email: info@cosignaturehomes.com</p>
+            <p>Email: info@cosignatureshomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>
           </div>
         </div>

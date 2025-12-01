@@ -1,13 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Calendar, Users, Phone, Mail, MapPin, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import { Calendar as CalendarIcon, Users, Phone, Mail, MapPin, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { useAuth } from '@/lib/auth-context'
 import { useRouter } from 'next/navigation'
 import { calculatePricing } from '@/lib/pricing'
+import { toast } from 'sonner'
 
 // Declare Paystack types
 declare global {
@@ -47,188 +48,30 @@ const BookingPage = () => {
     phone: '',
     message: ''
   })
-
   const [errors, setErrors] = useState<FormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
   const [bookingReference, setBookingReference] = useState('')
   const [processingPayment, setProcessingPayment] = useState(false)
-
-  // Redirect to auth if not logged in
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/auth')
-    }
-  }, [user, loading, router])
-
-  // Auto-fill form with user data
-  useEffect(() => {
-    if (user && userData) {
-      setFormData(prev => ({
-        ...prev,
-        email: user.email || '',
-        name: userData.displayName || '',
-        phone: userData.phone || ''
-      }))
-    }
-  }, [user, userData])
-
-  // Validation functions
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
+  interface BookedDate {
+    start: string
+    end: string
   }
 
-  const validatePhone = (phone: string): boolean => {
-    const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/
-    return phoneRegex.test(phone.replace(/\s/g, ''))
-  }
+  const [bookedDates, setBookedDates] = useState<BookedDate[]>([])
+  const [loadingAvailability, setLoadingAvailability] = useState(false)
+  const availabilityRequestId = useRef(0)
 
-  const validateDates = (checkin: string, checkout: string): { isValid: boolean; error?: string } => {
-    if (!checkin || !checkout) {
-      return { isValid: false, error: 'Both check-in and check-out dates are required' }
-    }
-
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    
-    const checkinDate = new Date(checkin)
-    const checkoutDate = new Date(checkout)
-
-    if (checkinDate < today) {
-      return { isValid: false, error: 'Check-in date cannot be in the past' }
-    }
-
-    if (checkoutDate <= checkinDate) {
-      return { isValid: false, error: 'Check-out date must be after check-in date' }
-    }
-
-    const daysDifference = Math.ceil((checkoutDate.getTime() - checkinDate.getTime()) / (1000 * 60 * 60 * 24))
-    if (daysDifference > 30) {
-      return { isValid: false, error: 'Maximum stay is 30 days' }
-    }
-
-    return { isValid: true }
-  }
-
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {}
-
-    // Required field validation
-    if (!formData.name.trim()) newErrors.name = 'Full name is required'
-    if (!formData.email.trim()) newErrors.email = 'Email address is required'
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required'
-    if (!formData.company) newErrors.company = 'Please select a property'
-    if (!formData.apartment) newErrors.apartment = 'Please select an apartment'
-    if (!formData.checkin) newErrors.checkin = 'Check-in date is required'
-    if (!formData.checkout) newErrors.checkout = 'Check-out date is required'
-    if (!formData.guests) newErrors.guests = 'Number of guests is required'
-
-    // Format validation
-    if (formData.email && !validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address'
-    }
-
-    if (formData.phone && !validatePhone(formData.phone)) {
-      newErrors.phone = 'Please enter a valid phone number'
-    }
-
-    if (formData.name && formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters long'
-    }
-
-    // Date validation
-    const dateValidation = validateDates(formData.checkin, formData.checkout)
-    if (!dateValidation.isValid && dateValidation.error) {
-      newErrors.dates = dateValidation.error
-    }
-
-    // Guests validation
-    const guestCount = parseInt(formData.guests)
-    if (formData.guests && (isNaN(guestCount) || guestCount < 1 || guestCount > 10)) {
-      newErrors.guests = 'Number of guests must be between 1 and 10'
-    }
-
-    // Check if trying to book coming soon properties
-    if (formData.company && ['cladius-elite', 'omolaja-flats'].includes(formData.company)) {
-      newErrors.company = 'This property is coming soon. Please select Pa Cladius Apartments for immediate booking.'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!user || !userData) {
-      setSubmitStatus('error')
-      setSubmitMessage('Please sign in to make a booking.')
-      return
-    }
-    
-    if (!validateForm() || !pricing) {
-      setSubmitStatus('error')
-      setSubmitMessage('Please correct the errors and try again.')
-      return
-    }
-
-    setIsSubmitting(true)
-    setSubmitStatus('idle')
-
-    try {
-      // 1. Save pending booking to localStorage
-      const pendingBooking = {
-        userId: user.uid,
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        company: formData.company,
-        apartment: formData.apartment,
-        checkin: formData.checkin,
-        checkout: formData.checkout,
-        guests: formData.guests,
-        message: formData.message,
-        pricing: pricing
-      }
-      localStorage.setItem('pendingBooking', JSON.stringify(pendingBooking))
-
-      // 2. Initialize Paystack Transaction
-      const paymentReference = `CSH_${Date.now()}_${user.uid.slice(-6)}`
-      const response = await fetch('/api/paystack/initialize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: user.email,
-          amount: pricing.totalAmount,
-          reference: paymentReference,
-          metadata: {
-            custom_fields: [
-              { display_name: "Property", variable_name: "property", value: formData.company },
-              { display_name: "Apartment", variable_name: "apartment", value: formData.apartment }
-            ]
-          }
-        })
-      })
-
-      const result = await response.json()
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Payment initialization failed')
-      }
-
-      // 3. Redirect to Paystack payment page
-      window.location.href = result.data.authorization_url
-
-    } catch (error) {
-      console.error('Payment error:', error)
-      setSubmitStatus('error')
-      setSubmitMessage(error instanceof Error ? error.message : 'An unexpected error occurred. Please try again.')
-      setIsSubmitting(false)
-      setProcessingPayment(false)
-    }
-  }
+  // Refs for auto-scrolling to errors
+  const companyRef = useRef<HTMLDivElement>(null)
+  const apartmentRef = useRef<HTMLDivElement>(null)
+  const checkinRef = useRef<HTMLDivElement>(null)
+  const checkoutRef = useRef<HTMLDivElement>(null)
+  const guestsRef = useRef<HTMLSelectElement>(null)
+  const nameRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const phoneRef = useRef<HTMLInputElement>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -264,6 +107,18 @@ const BookingPage = () => {
     }
   }
 
+  // Prefill contact details from authenticated user when available
+  useEffect(() => {
+    if (!user) return
+
+    setFormData(prev => ({
+      ...prev,
+      name: prev.name || user.displayName || userData?.displayName || '',
+      email: prev.email || user.email || '',
+      phone: prev.phone || userData?.phone || ''
+    }))
+  }, [user, userData])
+
   // Calculate pricing whenever relevant fields change
   useEffect(() => {
     if (formData.company && formData.apartment && formData.checkin && formData.checkout) {
@@ -279,15 +134,20 @@ const BookingPage = () => {
     }
   }, [formData.company, formData.apartment, formData.checkin, formData.checkout])
 
-  // Get today's date for min date validation
-  const today = new Date().toISOString().split('T')[0]
+  // Get today's date for min date validation (allow same-day bookings)
+  const getTodayDate = () => {
+    const today = new Date()
+    return today.toISOString().split('T')[0]
+  }
   
-  // Get tomorrow's date for checkout min date
-  const getTomorrowDate = (checkinDate: string) => {
+  const today = getTodayDate()
+  
+  // Get day after check-in for checkout min date
+  const getCheckoutMinDate = (checkinDate: string) => {
     if (!checkinDate) return today
-    const tomorrow = new Date(checkinDate)
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    return tomorrow.toISOString().split('T')[0]
+    const checkoutMin = new Date(checkinDate)
+    checkoutMin.setDate(checkoutMin.getDate() + 1)
+    return checkoutMin.toISOString().split('T')[0]
   }
 
   const companies = [
@@ -302,17 +162,316 @@ const BookingPage = () => {
       { value: 'executive-3bedroom', label: 'Executive 3-Bedroom Ensuite Apartment (Unit 2)' },
       { value: 'deluxe-1bedroom', label: 'Deluxe 1-Bedroom Ensuite Apartment (Unit 3)' }
     ],
-    'cladius-elite': [
-      { value: 'coming-soon', label: 'Coming Soon - Premium Lofts' }
-    ],
-    'omolaja-flats': [
-      { value: 'coming-soon', label: 'Coming Soon - Comfortable Flats' }
-    ]
+    'cladius-elite': [],
+    'omolaja-flats': []
+  }
+
+  const isDateRangeBooked = (checkin: string, checkout: string): boolean => {
+    const checkinDate = new Date(checkin)
+    const checkoutDate = new Date(checkout)
+
+    return bookedDates.some(booking => {
+      const bookingStart = new Date(booking.start)
+      const bookingEndExclusive = new Date(booking.end)
+
+      // Treat checkout as exclusive so a new guest can check in on the same day another checks out
+      return checkinDate < bookingEndExclusive && checkoutDate > bookingStart
+    })
+  }
+
+  const isDateBooked = (date: string): boolean => {
+    if (!date) return false
+    const target = new Date(date)
+    return bookedDates.some(({ start, end }) => {
+      const bookingStart = new Date(start)
+      const bookingEndExclusive = new Date(end)
+      return target >= bookingStart && target < bookingEndExclusive
+    })
+  }
+
+  const normalizeDate = (date: Date) => {
+    const d = new Date(date)
+    d.setHours(0, 0, 0, 0)
+    return d
+  }
+
+  const getUnavailableDatesInRange = (checkin: string, checkout: string): string[] => {
+    if (!checkin || !checkout) return []
+
+    const conflicts = new Set<string>()
+    const selectionStart = normalizeDate(new Date(checkin))
+    const selectionEndExclusive = normalizeDate(new Date(checkout))
+
+    bookedDates.forEach(({ start, end }) => {
+      const bookingStart = normalizeDate(new Date(start))
+      const bookingEndExclusive = normalizeDate(new Date(end))
+
+      const overlapStart = new Date(Math.max(selectionStart.getTime(), bookingStart.getTime()))
+      const overlapEndExclusive = new Date(Math.min(selectionEndExclusive.getTime(), bookingEndExclusive.getTime()))
+
+      for (let day = overlapStart; day < overlapEndExclusive; day.setDate(day.getDate() + 1)) {
+        conflicts.add(day.toISOString().split('T')[0])
+      }
+    })
+
+    return Array.from(conflicts).sort()
+  }
+
+  const formatUnavailableMessage = (dates: string[]) => {
+    if (!dates.length) return ''
+    const preview = dates.slice(0, 3).map(date =>
+      new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    ).join(', ')
+    const more = dates.length > 3 ? ` + ${dates.length - 3} more` : ''
+    return `Selected dates are not available. Unavailable: ${preview}${more}`
   }
 
   const getAvailableApartments = () => {
     if (!formData.company) return []
     return apartments[formData.company as keyof typeof apartments] || []
+  }
+
+  // Fetch availability whenever property/apartment selection changes
+  useEffect(() => {
+    if (!formData.company || !formData.apartment) {
+      setBookedDates([])
+      setLoadingAvailability(false)
+      return
+    }
+
+    const requestId = ++availabilityRequestId.current
+    setLoadingAvailability(true)
+
+    const fetchAvailability = async () => {
+      try {
+        const params = new URLSearchParams({
+          company: formData.company,
+          apartment: formData.apartment
+        })
+
+        const response = await fetch(`/api/bookings/availability?${params.toString()}`)
+        const result = await response.json()
+
+        if (requestId !== availabilityRequestId.current) return
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error || 'Unable to load availability')
+        }
+
+        setBookedDates(result.bookedDates || [])
+      } catch (error) {
+        if (requestId !== availabilityRequestId.current) return
+        console.error('Availability fetch error:', error)
+        setBookedDates([])
+        toast.error(error instanceof Error ? error.message : 'Failed to load availability')
+      } finally {
+        if (requestId === availabilityRequestId.current) {
+          setLoadingAvailability(false)
+        }
+      }
+    }
+
+    fetchAvailability()
+  }, [formData.company, formData.apartment])
+
+  // Update date availability errors whenever selection or availability changes
+  useEffect(() => {
+    if (!formData.checkin || !formData.checkout) return
+
+    const unavailableDates = getUnavailableDatesInRange(formData.checkin, formData.checkout)
+    if (unavailableDates.length) {
+      setErrors(prev => ({
+        ...prev,
+        dates: formatUnavailableMessage(unavailableDates)
+      }))
+    } else if (errors.dates?.startsWith('Selected dates are not available')) {
+      setErrors(prev => ({
+        ...prev,
+        dates: ''
+      }))
+    }
+  }, [formData.checkin, formData.checkout, bookedDates, errors.dates])
+
+  const validateForm = () => {
+    const newErrors: FormErrors = {}
+    let isValid = true
+    let firstErrorField: string | null = null
+
+    if (!formData.company) {
+      newErrors.company = 'Please select a property'
+      if (!firstErrorField) firstErrorField = 'company'
+      isValid = false
+    }
+
+    if (!formData.apartment) {
+      newErrors.apartment = 'Please select an apartment'
+      if (!firstErrorField) firstErrorField = 'apartment'
+      isValid = false
+    }
+
+    if (!formData.checkin) {
+      newErrors.checkin = 'Check-in date is required'
+      if (!firstErrorField) firstErrorField = 'checkin'
+      isValid = false
+    }
+
+    if (!formData.checkout) {
+      newErrors.checkout = 'Check-out date is required'
+      if (!firstErrorField) firstErrorField = 'checkout'
+      isValid = false
+    }
+
+    if (formData.checkin && formData.checkout) {
+      const checkinDate = new Date(formData.checkin)
+      const checkoutDate = new Date(formData.checkout)
+      
+      if (checkoutDate <= checkinDate) {
+        newErrors.dates = 'Check-out must be after check-in'
+        if (!firstErrorField) firstErrorField = 'checkout'
+        isValid = false
+      } else {
+        const unavailableDates = getUnavailableDatesInRange(formData.checkin, formData.checkout)
+        if (unavailableDates.length) {
+          newErrors.dates = formatUnavailableMessage(unavailableDates)
+          if (!firstErrorField) firstErrorField = 'checkin'
+          isValid = false
+        } else if (isDateRangeBooked(formData.checkin, formData.checkout)) {
+          newErrors.dates = 'Selected dates are not available. Please choose different dates.'
+          if (!firstErrorField) firstErrorField = 'checkin'
+          isValid = false
+        }
+      }
+    }
+
+    if (!formData.guests) {
+      newErrors.guests = 'Please select number of guests'
+      if (!firstErrorField) firstErrorField = 'guests'
+      isValid = false
+    }
+
+    if (!formData.name) {
+      newErrors.name = 'Full name is required'
+      if (!firstErrorField) firstErrorField = 'name'
+      isValid = false
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required'
+      if (!firstErrorField) firstErrorField = 'email'
+      isValid = false
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid'
+      if (!firstErrorField) firstErrorField = 'email'
+      isValid = false
+    }
+
+    if (!formData.phone) {
+      newErrors.phone = 'Phone number is required'
+      if (!firstErrorField) firstErrorField = 'phone'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+
+    if (!isValid) {
+      toast.error('Please fix the errors in the form')
+      
+      // Auto-scroll to first error
+      if (firstErrorField) {
+        const refs: { [key: string]: React.RefObject<HTMLElement> } = {
+          company: companyRef,
+          apartment: apartmentRef,
+          checkin: checkinRef,
+          checkout: checkoutRef,
+          guests: guestsRef,
+          name: nameRef,
+          email: emailRef,
+          phone: phoneRef
+        }
+        
+        const ref = refs[firstErrorField]
+        if (ref && ref.current) {
+          ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }
+    }
+
+    return isValid
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!user || !userData) {
+      toast.error('Please sign in to make a booking')
+      router.push('/auth')
+      return
+    }
+    
+    if (!validateForm()) {
+      return
+    }
+
+    if (loadingAvailability) {
+      toast.error('Please wait while we check availability...')
+      return
+    }
+
+    if (!pricing) {
+      toast.error('Unable to calculate pricing. Please check your dates.')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      // Initialize Paystack Transaction (server calculates amount)
+      const paymentReference = `CSH_${Date.now()}_${user.uid.slice(-6)}`
+      const response = await fetch('/api/paystack/initialize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user.email,
+          reference: paymentReference,
+          // Send booking details for server-side validation
+          bookingDetails: {
+            property: formData.company,
+            company: formData.company,
+            apartment: formData.apartment,
+            checkin: formData.checkin,
+            checkout: formData.checkout,
+            guests: formData.guests,
+            message: formData.message,
+            userId: user.uid
+          },
+          customer: {
+            name: formData.name,
+            phone: formData.phone
+          },
+          metadata: {
+            custom_fields: [
+              { display_name: "Property", variable_name: "property", value: formData.company },
+              { display_name: "Apartment", variable_name: "apartment", value: formData.apartment }
+            ]
+          }
+        })
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Payment initialization failed')
+      }
+
+      // 3. Redirect to Paystack payment page
+      window.location.href = result.data.authorization_url
+
+    } catch (error) {
+      console.error('Payment error:', error)
+      toast.error(error instanceof Error ? error.message : 'An unexpected error occurred. Please try again.')
+      setIsSubmitting(false)
+      setProcessingPayment(false)
+    }
   }
 
   const steps = [
@@ -450,7 +609,7 @@ const BookingPage = () => {
               )}
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
+                <div ref={companyRef}>
                   <label className="block text-gold-400 font-semibold mb-2">
                     Select Property *
                   </label>
@@ -467,7 +626,7 @@ const BookingPage = () => {
                   >
                     <option value="">Select a property</option>
                     {companies.map((company) => (
-                      <option key={company.value} value={company.value}>
+                      <option key={company.value} value={company.value} disabled={company.status !== 'available'}>
                         {company.label} {company.status === 'coming-soon' ? '(Coming Soon)' : ''}
                       </option>
                     ))}
@@ -480,7 +639,7 @@ const BookingPage = () => {
                   )}
                 </div>
 
-                <div>
+                <div ref={apartmentRef}>
                   <label className="block text-gold-400 font-semibold mb-2">
                     Preferred Apartment *
                   </label>
@@ -511,52 +670,133 @@ const BookingPage = () => {
                       {errors.apartment}
                     </p>
                   )}
+                  {loadingAvailability && formData.apartment && (
+                    <p className="text-blue-400 text-sm mt-1 flex items-center">
+                      <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                      Checking availability...
+                    </p>
+                  )}
+                  {!loadingAvailability && formData.apartment && bookedDates.length > 0 && (
+                    <p className="text-yellow-400 text-sm mt-1">
+                      Some dates are already booked for this apartment
+                    </p>
+                  )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-gold-400 font-semibold mb-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div ref={checkinRef}>
+                    <label className="block text-gold-400 font-semibold mb-3 text-base">
                       Check-in Date *
                     </label>
-                    <input
-                      type="date"
-                      name="checkin"
-                      value={formData.checkin}
-                      onChange={handleChange}
-                      min={today}
-                      required
-                      className={`w-full bg-dark-900 border rounded-lg px-4 py-3 text-white focus:outline-none transition-colors ${
-                        errors.checkin || errors.dates
-                          ? 'border-red-500 focus:border-red-400' 
-                          : 'border-gray-700 focus:border-gold-400'
-                      }`}
-                    />
+                    {!formData.apartment ? (
+                      <div className="w-full bg-dark-900/50 border-2 border-dashed border-gray-600 rounded-xl px-6 py-8 text-center">
+                        <CalendarIcon className="w-8 h-8 text-gray-500 mx-auto mb-2" />
+                        <p className="text-gray-400 text-sm">Select an apartment first</p>
+                      </div>
+                    ) : loadingAvailability ? (
+                      <div className="w-full bg-dark-900 border-2 border-gray-700 rounded-xl p-4 shadow-xl">
+                        <div className="flex flex-col items-center justify-center py-12">
+                          <Loader2 className="w-8 h-8 text-gold-400 animate-spin mb-3" />
+                          <span className="text-gray-300 text-sm">Checking availability...</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="w-full bg-dark-900 border-2 border-gray-700 rounded-xl overflow-hidden shadow-xl">
+                        <input
+                          type="date"
+                          value={formData.checkin}
+                          onChange={(e) => {
+                            const selected = e.target.value
+                            if (isDateBooked(selected)) {
+                              toast.error('That check-in date is unavailable. Please pick another.')
+                              return
+                            }
+                            setFormData(prev => ({
+                              ...prev,
+                              checkin: selected,
+                              checkout: ''
+                            }))
+                          }}
+                          min={today}
+                          className="w-full bg-dark-800 border-b-2 border-gray-700 px-4 py-3 text-white focus:outline-none focus:border-gold-400 transition-colors"
+                        />
+                        {formData.checkin && (
+                          <div className="p-3 bg-dark-800 border-b border-gray-700">
+                            <p className="text-sm text-gray-300">
+                              Selected: <span className="text-gold-400 font-semibold">
+                                {new Date(formData.checkin).toLocaleDateString('en-US', { 
+                                  weekday: 'short', 
+                                  month: 'short', 
+                                  day: 'numeric',
+                                  year: 'numeric'
+                                })}
+                              </span>
+                            </p>
+                          </div>
+                        )}
+                        {bookedDates.length > 0 && (
+                          <div className="p-3 bg-yellow-900/20 border-b border-yellow-700/30">
+                            <p className="text-xs text-yellow-400 flex items-center">
+                              <AlertCircle className="w-3 h-3 mr-1" />
+                              Some dates are booked for this apartment (unavailable dates cannot be selected)
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
                     {errors.checkin && (
-                      <p className="text-red-400 text-sm mt-1 flex items-center">
+                      <p className="text-red-400 text-sm mt-2 flex items-center">
                         <AlertCircle className="w-4 h-4 mr-1" />
                         {errors.checkin}
                       </p>
                     )}
                   </div>
-                  <div>
-                    <label className="block text-gold-400 font-semibold mb-2">
+                  <div ref={checkoutRef}>
+                    <label className="block text-gold-400 font-semibold mb-3 text-base">
                       Check-out Date *
                     </label>
-                    <input
-                      type="date"
-                      name="checkout"
-                      value={formData.checkout}
-                      onChange={handleChange}
-                      min={getTomorrowDate(formData.checkin)}
-                      required
-                      className={`w-full bg-dark-900 border rounded-lg px-4 py-3 text-white focus:outline-none transition-colors ${
-                        errors.checkout || errors.dates
-                          ? 'border-red-500 focus:border-red-400' 
-                          : 'border-gray-700 focus:border-gold-400'
-                      }`}
-                    />
+                    {!formData.checkin ? (
+                      <div className="w-full bg-dark-900/50 border-2 border-dashed border-gray-600 rounded-xl px-6 py-8 text-center">
+                        <CalendarIcon className="w-8 h-8 text-gray-500 mx-auto mb-2" />
+                        <p className="text-gray-400 text-sm">Select check-in date first</p>
+                      </div>
+                    ) : (
+                      <div className="w-full bg-dark-900 border-2 border-gray-700 rounded-xl overflow-hidden shadow-xl">
+                        <input
+                          type="date"
+                          value={formData.checkout}
+                          onChange={(e) => {
+                            const selected = e.target.value
+                            if (isDateBooked(selected)) {
+                              toast.error('That check-out date is unavailable. Please pick another.')
+                              return
+                            }
+                            setFormData(prev => ({
+                              ...prev,
+                              checkout: selected
+                            }))
+                          }}
+                          min={getCheckoutMinDate(formData.checkin)}
+                          className="w-full bg-dark-800 border-b-2 border-gray-700 px-4 py-3 text-white focus:outline-none focus:border-gold-400 transition-colors"
+                        />
+                        {formData.checkout && (
+                          <div className="p-3 bg-dark-800">
+                            <p className="text-sm text-gray-300">
+                              Selected: <span className="text-gold-400 font-semibold">
+                                {new Date(formData.checkout).toLocaleDateString('en-US', { 
+                                  weekday: 'short', 
+                                  month: 'short', 
+                                  day: 'numeric',
+                                  year: 'numeric'
+                                })}
+                              </span>
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
                     {errors.checkout && (
-                      <p className="text-red-400 text-sm mt-1 flex items-center">
+                      <p className="text-red-400 text-sm mt-2 flex items-center">
                         <AlertCircle className="w-4 h-4 mr-1" />
                         {errors.checkout}
                       </p>
@@ -569,6 +809,7 @@ const BookingPage = () => {
                     Number of Guests *
                   </label>
                   <select
+                    ref={guestsRef}
                     name="guests"
                     value={formData.guests}
                     onChange={handleChange}
@@ -598,6 +839,7 @@ const BookingPage = () => {
                       Full Name *
                     </label>
                     <input
+                      ref={nameRef}
                       type="text"
                       name="name"
                       value={formData.name}
@@ -624,6 +866,7 @@ const BookingPage = () => {
                       Email Address *
                     </label>
                     <input
+                      ref={emailRef}
                       type="email"
                       name="email"
                       value={formData.email}
@@ -650,6 +893,7 @@ const BookingPage = () => {
                     Phone Number *
                   </label>
                   <input
+                    ref={phoneRef}
                     type="tel"
                     name="phone"
                     value={formData.phone}
@@ -718,7 +962,7 @@ const BookingPage = () => {
                 {pricing && (
                   <div className="mt-8 bg-dark-900 rounded-2xl p-6 border border-gray-800">
                     <div className="flex items-center mb-4">
-                      <Calendar className="w-5 h-5 text-gold-400 mr-2" />
+                      <CalendarIcon className="w-5 h-5 text-gold-400 mr-2" />
                       <h3 className="text-xl font-playfair font-semibold text-gold-400">
                         Booking Summary
                       </h3>
@@ -801,7 +1045,7 @@ const BookingPage = () => {
                   </div>
                   <div>
                     <h3 className="text-white font-semibold">Email</h3>
-                    <p className="text-gray-300">info@cosignaturehomes.com</p>
+                    <p className="text-gray-300">info@cosignatureshomes.com</p>
                   </div>
                 </div>
 

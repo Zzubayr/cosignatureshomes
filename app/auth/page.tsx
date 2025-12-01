@@ -22,21 +22,29 @@ const AuthPage = () => {
     confirmPassword: ''
   })
 
-  const { signIn, signUp, signInWithGoogle, user, loading: authLoading } = useAuth()
+  const { signIn, signUp, signInWithGoogle, user, userData, loading: authLoading } = useAuth()
   const router = useRouter()
 
   // Check for existing session and redirect if authenticated
   useEffect(() => {
-    if (!authLoading) {
-      if (user) {
-        // User is already authenticated, redirect to profile
-        router.push('/profile')
-      } else {
-        // No active session, show auth form
-        setCheckingSession(false)
-      }
+    if (authLoading) return
+
+    if (!user) {
+      // No active session, show auth form
+      setCheckingSession(false)
+      return
     }
-  }, [user, authLoading, router])
+
+    // Wait for userData to load to avoid misrouting admins
+    if (!userData) return
+
+    if (userData.role === 'admin') {
+      router.push('/admin')
+    } else {
+      router.push('/profile')
+    }
+    setCheckingSession(false)
+  }, [user, userData, authLoading, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -46,7 +54,6 @@ const AuthPage = () => {
     try {
       if (isLogin) {
         await signIn(formData.email, formData.password)
-        router.push('/profile')
       } else {
         if (formData.password !== formData.confirmPassword) {
           throw new Error('Passwords do not match')
@@ -55,7 +62,6 @@ const AuthPage = () => {
           throw new Error('Password must be at least 6 characters')
         }
         await signUp(formData.email, formData.password, formData.displayName)
-        router.push('/profile')
       }
     } catch (error: any) {
       setError(error.message)
@@ -70,7 +76,6 @@ const AuthPage = () => {
     
     try {
       await signInWithGoogle()
-      router.push('/profile')
     } catch (error: any) {
       setError(error.message)
     } finally {

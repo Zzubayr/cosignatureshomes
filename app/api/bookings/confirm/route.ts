@@ -21,6 +21,10 @@ export async function POST(request: NextRequest) {
 
     const booking = bookingSnap.data()
 
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+      return NextResponse.json({ error: 'Email configuration missing on server' }, { status: 500 })
+    }
+
     // Update status
     await updateDoc(bookingRef, {
       status: 'confirmed',
@@ -35,6 +39,16 @@ export async function POST(request: NextRequest) {
         pass: process.env.EMAIL_PASSWORD,
       },
     })
+
+    // Normalize dates from Firestore Timestamp or Date
+    const resolveDate = (value: any) => {
+      if (!value) return ''
+      if (typeof value.toDate === 'function') return value.toDate()
+      return new Date(value)
+    }
+
+    const checkInDate = resolveDate(booking.checkIn)
+    const checkOutDate = resolveDate(booking.checkOut)
 
     const emailHtml = `
       <!DOCTYPE html>
@@ -72,8 +86,8 @@ export async function POST(request: NextRequest) {
               <p><strong>Booking Reference:</strong> <span class="highlight">${booking.bookingReference}</span></p>
               <p><strong>Property:</strong> ${booking.propertyName}</p>
               <p><strong>Apartment:</strong> ${booking.apartmentName}</p>
-              <p><strong>Check-in:</strong> ${new Date(booking.checkIn.seconds * 1000).toLocaleDateString()}</p>
-              <p><strong>Check-out:</strong> ${new Date(booking.checkOut.seconds * 1000).toLocaleDateString()}</p>
+              <p><strong>Check-in:</strong> ${checkInDate.toLocaleDateString()}</p>
+              <p><strong>Check-out:</strong> ${checkOutDate.toLocaleDateString()}</p>
             </div>
 
             <h3>Check-in Instructions</h3>
@@ -84,7 +98,7 @@ export async function POST(request: NextRequest) {
               <p><strong>CO Signature Homes</strong></p>
               <p>Phone: +234 913 559 1544</p>
               <p>WhatsApp: +234 902 842 5896</p>
-              <p>Email: info@cosignaturehomes.com</p>
+              <p>Email: info@cosignatureshomes.com</p>
             </div>
           </div>
         </div>
@@ -92,14 +106,16 @@ export async function POST(request: NextRequest) {
       </html>
     `
 
-    await transporter.sendMail({
+    const mailResult = await transporter.sendMail({
       from: `"CO Signature Homes" <${process.env.EMAIL_USER}>`,
       to: booking.userEmail,
       subject: `Booking Confirmed - ${booking.bookingReference}`,
       html: emailHtml,
     })
 
-    return NextResponse.json({ success: true })
+    console.log('Confirmation email sent:', mailResult?.messageId)
+
+    return NextResponse.json({ success: true, emailSent: true })
   } catch (error) {
     console.error('Error confirming booking:', error)
     return NextResponse.json({ error: 'Failed to confirm booking' }, { status: 500 })

@@ -178,7 +178,7 @@ const TermsPage = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <Mail className="w-5 h-5 text-black" />
-                    <span className="text-black font-semibold">info@cosignaturehomes.com</span>
+                    <span className="text-black font-semibold">info@cosignatureshomes.com</span>
                   </div>
                 </div>
               </motion.div>

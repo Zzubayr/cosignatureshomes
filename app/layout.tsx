@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/lib/auth-context'
 import PolicyBanner from '@/components/PolicyBanner'
+import { Toaster } from '@/components/ui/sonner'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -44,6 +45,9 @@ export default function RootLayout({
           {children}
           <PolicyBanner />
         </AuthProvider>
+        
+        {/* Toast Notifications */}
+        <Toaster position="top-center" richColors />
         
         {/* Paystack Script */}
         <script src="https://js.paystack.co/v1/inline.js"></script>

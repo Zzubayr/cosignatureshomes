@@ -208,10 +208,10 @@ const PrivacyPage = () => {
                 <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8">
                   <div className="flex items-center space-x-2">
                     <Mail className="w-5 h-5 text-black" />
-                    <span className="text-black font-semibold">info@cosignaturehomes.com</span>
+                    <span className="text-black font-semibold">info@cosignatureshomes.com</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-black font-semibold">cosignaturehomes.com</span>
+                    <span className="text-black font-semibold">cosignatureshomes.com</span>
                   </div>
                 </div>
               </motion.div>

@@ -73,10 +73,10 @@ export const DISCOUNTS = {
  */
 export function getNightlyRate(property: string, apartment: string): number {
   const propertyConfig = PROPERTIES[property]
-  if (!propertyConfig) return 80000 // Default to 1BR rate
+  if (!propertyConfig) return 0 // Unknown property
 
   const apartmentConfig = propertyConfig.apartments.find(apt => apt.value === apartment)
-  return apartmentConfig?.nightlyRate || 80000
+  return apartmentConfig?.nightlyRate || 0
 }
 
 /**
@@ -98,6 +98,8 @@ export function calculatePricing(
   checkout: string
 ): PricingBreakdown | null {
   if (!property || !apartment || !checkin || !checkout) return null
+  const nightlyRate = getNightlyRate(property, apartment)
+  if (!nightlyRate) return null
 
   const checkInDate = new Date(checkin)
   const checkOutDate = new Date(checkout)
@@ -105,7 +107,6 @@ export function calculatePricing(
 
   if (nights <= 0) return null
 
-  const nightlyRate = getNightlyRate(property, apartment)
   const discount = calculateDiscount(nights)
 
   const basePrice = Math.round(nightlyRate * nights * (1 - discount))

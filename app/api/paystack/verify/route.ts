@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { calculatePricing } from '@/lib/pricing'
 
 export async function POST(request: NextRequest) {
     try {
@@ -26,6 +27,27 @@ export async function POST(request: NextRequest) {
         const { data } = result
 
         if (data.status === 'success') {
+            // Validate amount against recalculated pricing
+            const bookingPayload = data.metadata?.bookingPayload
+            let amountValid = true
+
+            if (bookingPayload?.property && bookingPayload?.apartment && bookingPayload?.checkin && bookingPayload?.checkout) {
+                const pricing = calculatePricing(
+                    bookingPayload.property,
+                    bookingPayload.apartment,
+                    bookingPayload.checkin,
+                    bookingPayload.checkout
+                )
+                const expected = pricing?.totalAmount
+                if (!expected || expected !== data.amount / 100) {
+                    amountValid = false
+                }
+            }
+
+            if (!amountValid) {
+                return NextResponse.json({ error: 'Paid amount does not match booking pricing' }, { status: 400 })
+            }
+
             return NextResponse.json({
                 success: true,
                 data: {
@@ -34,6 +56,7 @@ export async function POST(request: NextRequest) {
                     amount: data.amount / 100, // Convert from kobo to naira
                     customer: data.customer,
                     metadata: data.metadata,
+                    bookingPayload: data.metadata?.bookingPayload || null,
                     paid_at: data.paid_at,
                     channel: data.channel,
                     currency: data.currency

@@ -140,7 +140,7 @@ const ContactPage = () => {
     {
       icon: Mail,
       title: 'Email',
-      details: 'info@cosignaturehomes.com',
+      details: 'info@cosignatureshomes.com',
       description: 'Send us an email anytime'
     },
     {
