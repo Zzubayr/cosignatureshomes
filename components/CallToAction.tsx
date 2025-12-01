@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import whatsappicon from '@/public/whatsapp.svg'
+import whatsappicon from '@/public/whatsapp-black.svg'
 
 const CallToAction = () => {
   return (
