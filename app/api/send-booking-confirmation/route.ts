@@ -102,7 +102,7 @@ function generateCustomerConfirmationEmail(booking: any) {
               <li><strong>Check-in Time:</strong> 2:00 PM onwards</li>
               <li><strong>Check-out Time:</strong> 12:00 PM</li>
               <li><strong>Valid ID Required:</strong> Please bring government-issued identification</li>
-              <li>Contact on Arrival: +2348110384179</li>
+              <li>Contact on Arrival: +2348110382179</li>
             </ul>
           </div>
 
@@ -141,7 +141,7 @@ function generateCustomerConfirmationEmail(booking: any) {
           
           <div class="footer">
             <p><strong>CO Signatures Homes</strong></p>
-            <p>Phone: +2348110384179</p>
+            <p>Phone: +2348110382179</p>
             <p>Email: info@cosignatureshomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>
           </div>

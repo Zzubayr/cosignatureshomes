@@ -111,7 +111,7 @@ const createAutoReplyTemplate = (contactData: any) => {
             <ul>
               <li>Our team will review your message carefully</li>
               <li>We'll respond to you within 24 hours</li>
-              <li>If urgent, feel free to call us at +2348110384179</li>
+              <li>If urgent, feel free to call us at +2348110382179</li>
             </ul>
           </div>
 
@@ -119,7 +119,7 @@ const createAutoReplyTemplate = (contactData: any) => {
           
           <div class="footer">
             <p><strong>CO Signatures Homes</strong></p>
-            <p>Phone: +2348110384179</p>
+            <p>Phone: +2348110382179</p>
             <p>Email: info@cosignatureshomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>
           </div>

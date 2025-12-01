@@ -27,7 +27,7 @@ const CallToAction = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-black font-semibold">
               <span className="flex items-center gap-2">
                 <Phone className="w-5 h-5" />
-                +234 811 038 4179
+                +234 811 038 2179
               </span>
               <span className="flex items-center gap-2">
                 <Image

@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
             
             <div class="footer">
               <p><strong>CO Signatures Homes</strong></p>
-              <p>Phone: +234 913 559 1544</p>
+              <p>Phone: +2348110382179</p>
               <p>WhatsApp: +234 902 842 5896</p>
               <p>Email: info@cosignatureshomes.com</p>
             </div>

@@ -154,7 +154,7 @@ const PaClaudiusLocationPage = () => {
                 </div>
                 <div>
                   <p className="text-gold-400 font-semibold mb-1">Contact:</p>
-                  <p className="text-gray-300">+2348110384179</p>
+                <p className="text-gray-300">+2348110382179</p>
                   <p className="text-gray-300">info@cosignatureshomes.com</p>
                 </div>
               </div>

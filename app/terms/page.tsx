@@ -174,7 +174,7 @@ const TermsPage = () => {
                 <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8">
                   <div className="flex items-center space-x-2">
                     <Phone className="w-5 h-5 text-black" />
-                    <span className="text-black font-semibold">+2348110384179</span>
+                    <span className="text-black font-semibold">+2348110382179</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Mail className="w-5 h-5 text-black" />

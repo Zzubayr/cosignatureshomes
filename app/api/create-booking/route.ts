@@ -248,7 +248,7 @@ async function sendCustomerEmail(booking: any) {
           
           <div class="footer">
             <p><strong>CO Signatures Homes</strong></p>
-            <p>Phone: +2348110384179</p>
+            <p>Phone: +2348110382179</p>
             <p>Email: info@cosignatureshomes.com</p>
             <p>Premium serviced apartments across Nigeria</p>
           </div>

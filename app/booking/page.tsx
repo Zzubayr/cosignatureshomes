@@ -905,7 +905,7 @@ const BookingPage = () => {
                         ? 'border-red-500 focus:border-red-400' 
                         : 'border-gray-700 focus:border-gold-400'
                     }`}
-                    placeholder="e.g., +234 913 559 1544"
+                    placeholder="e.g., +234 811 038 2179"
                   />
                   {errors.phone && (
                     <p className="text-red-400 text-sm mt-1 flex items-center">
@@ -1036,14 +1036,14 @@ const BookingPage = () => {
                   </div>
                   <div>
                     <h3 className="text-white font-semibold">Phone</h3>
-                    <p className="text-gray-300">+234 913 559 1544</p>
+                    <p className="text-gray-300">+234 811 038 2179</p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gold-500 rounded-full flex items-center justify-center">
                     <Image
-                      src="/whatsapp.svg"
+                      src="/whatsapp-black.svg"
                       alt="WhatsApp"
                       width={24}
                       height={24}

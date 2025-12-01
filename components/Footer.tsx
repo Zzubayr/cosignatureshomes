@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Logo and Description */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             {/* <Link href="/pa-claudius" className="flex items-center">
               <Image
                 src="/PA Claudius.svg"
@@ -20,11 +20,11 @@ const Footer = () => {
                 className="h-[200px] w-[120px]"
               />
             </Link> */}
-            <p className="text-gray-300 leading-relaxed">
+            {/* <p className="text-gray-300 leading-relaxed">
               3 fully serviced ensuite units at Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State with 24/7 power, 
               security, and premium amenities. Experience comfort and luxury.
             </p>
-          </div>
+          </div> */}
 
           {/* Quick Links */}
           <div className="space-y-4">
@@ -45,7 +45,7 @@ const Footer = () => {
           <div className="space-y-3">
             <div className="flex items-center space-x-3">
               <Phone className="w-5 h-5 text-gold-400" />
-              <span className="text-gray-300">+2348110384179</span>
+              <span className="text-gray-300">+2348110382179</span>
             </div>
             <div className="flex items-center space-x-3">
               <Image
