@@ -47,7 +47,6 @@ const AmenitiesPage = () => {
         { icon: Microwave, text: "Microwave" },
         { icon: Coffee, text: "Electric kettle" },
         { icon: Utensils, text: "Pots, pans & utensils" },
-        { icon: Users, text: "Breakfast bar or dining table" },
         { icon: Droplets, text: "Water dispenser (if applicable)" }
       ]
     },
@@ -56,7 +55,7 @@ const AmenitiesPage = () => {
       icon: Wifi,
       amenities: [
         { icon: Wifi, text: "High-speed fiber WiFi" },
-        { icon: Home, text: "Weekly housekeeping" },
+        { icon: Home, text: "Daily housekeeping" },
         { icon: Bed, text: "Fresh towels & linen changes" },
         { icon: Shirt, text: "Washer in each Suite" },
         { icon: Phone, text: "On-call maintenance & support" },
@@ -95,7 +94,7 @@ const AmenitiesPage = () => {
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Experience premium comfort with our comprehensive range of amenities designed 
-              to make your stay exceptional at Pa C.O Service Apartments.
+              to make your stay exceptional at Pa Claudius Service Apartments.
             </p>
           </motion.div>
         </div>
@@ -155,7 +154,7 @@ const AmenitiesPage = () => {
             className="text-center"
           >
             <h2 className="text-4xl md:text-5xl font-playfair font-bold text-black mb-6">
-              Why Choose Pa C.O Service Apartments?
+              Why Choose Pa Claudius Service Apartments?
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
               {[

@@ -85,7 +85,7 @@ const LocationPage = () => {
               Located in the Heart of <span className="text-gold-400">Ilesha</span>, Osun State
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Pa C.O Service Apartments at Alatishe, Phase 2, Ile Ayo sit in a secure, peaceful community with fast access to markets, 
+              Pa Claudius Service Apartments at Alatishe, Phase 2, Ile Ayo sit in a secure, peaceful community with fast access to markets, 
               restaurants, major roads, and business districts. Experience the perfect blend of tranquility 
               and convenience in Nigeria's historic city.
             </p>
@@ -124,7 +124,7 @@ const LocationPage = () => {
               <h3 className="text-2xl font-playfair font-semibold text-white mb-4">
                 Interactive Map
               </h3>
-              <p className="text-gray-300 mb-2">Pa C.O Service Apartments</p>
+              <p className="text-gray-300 mb-2">Pa Claudius Service Apartments</p>
               <p className="text-gold-400 font-semibold">Alatishe, Phase 2, Ile Ayo, Ilesha, Osun State, Nigeria</p>
             </div>
           </motion.div>
@@ -240,7 +240,7 @@ const LocationPage = () => {
               Experience Ilesha's Best Location
             </h2>
             <p className="text-lg md:text-xl text-black/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Book your stay at Pa C.O Service Apartments and enjoy the perfect combination 
+              Book your stay at Pa Claudius Service Apartments and enjoy the perfect combination 
               of peaceful living and urban convenience.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

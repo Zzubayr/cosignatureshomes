@@ -133,7 +133,7 @@ const ContactPage = () => {
       description: 'Available 24/7 for bookings and inquiries'
     },
     {
-      iconSrc: '/whatsapp.svg',
+      iconSrc: '/whatsapp-black.svg',
       title: 'WhatsApp',
       details: '+234 902 842 5896',
       description: 'Chat with us on WhatsApp'

@@ -58,7 +58,7 @@ const FeaturedAmenities = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-playfair font-bold text-white mb-6">
-            Why Choose Pa C.O
+            Why Choose Pa Claudius
           </h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Experience the perfect blend of comfort, security, and luxury at our premium serviced apartments
