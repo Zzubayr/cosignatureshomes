@@ -38,7 +38,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-lg md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed"
           >
-            Experience comfort and security at Pa C.O Service Apartments — 3 fully serviced ensuite units 
+            Experience comfort and security at Pa Claudius Service Apartments — 3 fully serviced ensuite units 
             (2×3-Bedroom, 1×1-Bedroom) with 24/7 power, high-end finishing, and premium amenities.
           </motion.p>
 
