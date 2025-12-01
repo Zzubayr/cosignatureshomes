@@ -4,7 +4,6 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['images.unsplash.com', 'via.placeholder.com', 'lh3.googleusercontent.com', 'firebasestorage.googleapis.com'],
     remotePatterns: [
       {
         protocol: 'https',
