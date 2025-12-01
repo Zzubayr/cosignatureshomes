@@ -129,7 +129,7 @@ const ContactPage = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '+234 913 559 1544',
+      details: '+234 811 038 4179',
       description: 'Available 24/7 for bookings and inquiries'
     },
     {
